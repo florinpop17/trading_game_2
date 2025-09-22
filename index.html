@@ -5,7 +5,7 @@
         <title>TradeMaster Pro - Fun Trading Game</title>
         <meta
             name="description"
-            content="Master the markets in 3 minutes! TradeMaster Pro is a fun stock trading game with volatile markets, bull/bear cycles, and exciting features. Can you beat the market?"
+            content="Master the markets in 60 seconds! TradeMaster Pro is a fun stock trading game with volatile markets, bull/bear cycles, and exciting features. Can you beat the market?"
         />
 
         <!-- Open Graph / Facebook -->
@@ -20,7 +20,7 @@
         />
         <meta
             property="og:description"
-            content="Master the markets in 3 minutes! Fun stock trading game with volatile markets, bull/bear cycles, and exciting features. Challenge your friends!"
+            content="Master the markets in 60 seconds! Fun stock trading game with volatile markets, bull/bear cycles, and exciting features. Challenge your friends!"
         />
         <meta
             property="og:image"
@@ -42,7 +42,7 @@
         />
         <meta
             property="twitter:description"
-            content="Master the markets in 3 minutes! Fun stock trading game with volatile markets, bull/bear cycles, and exciting features. Challenge your friends!"
+            content="Master the markets in 60 seconds! Fun stock trading game with volatile markets, bull/bear cycles, and exciting features. Challenge your friends!"
         />
         <meta
             property="twitter:image"
@@ -139,7 +139,7 @@
                         Ready to Trade?
                     </h2>
                     <p class="text-gray-400 text-lg">
-                        Master the markets in 3 minutes
+                        Master the markets in 60 seconds
                     </p>
                 </div>
 
@@ -154,7 +154,7 @@
                             Objective
                         </h3>
                         <p class="text-gray-300 text-sm">
-                            Maximize your $10,000 portfolio in 3 minutes
+                            Maximize your $10,000 portfolio in 60 seconds
                         </p>
                     </div>
 
@@ -627,7 +627,7 @@
 
         <script>
             // Game configuration
-            const GAME_DURATION_SECONDS = 180; // Change this to set game duration (10 for testing, 180 for 3 minutes)
+            const GAME_DURATION_SECONDS = 60; // Change this to set game duration (10 for testing, 60 for 60 seconds)
 
             // Game state
             let cash = 10000;
@@ -636,7 +636,7 @@
             let history = [price];
             let trades = []; // { index: number, price: number, side: 'buy'|'sell' }
             let timeIndex = 0; // global index of the last point in history
-            const historyMaxLen = 300;
+            const historyMaxLen = 200;
 
             // Timer state
             let timeRemaining = GAME_DURATION_SECONDS;
