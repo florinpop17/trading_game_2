@@ -201,178 +201,320 @@
 
             <!-- Game Screen (hidden initially) -->
             <div id="gameScreen" class="hidden">
-                <!-- Timer -->
-                <div class="card-glass rounded-2xl p-6 mb-8 text-center">
-                    <div
-                        class="flex items-center justify-center space-x-3 mb-2"
-                    >
+                <!-- Desktop Layout (hidden on mobile) -->
+                <div class="hidden lg:block">
+                    <!-- Timer -->
+                    <div class="card-glass rounded-2xl p-6 mb-8 text-center">
                         <div
-                            class="w-3 h-3 bg-yellow-400 rounded-full animate-pulse-slow"
-                        ></div>
-                        <p class="text-lg font-medium text-gray-300">
-                            Session Time
-                        </p>
-                    </div>
-                    <p
-                        id="timer"
-                        class="text-5xl font-bold text-yellow-400 mb-2"
-                    >
-                        3:00
-                    </p>
-                    <div class="w-full bg-gray-700 rounded-full h-2">
-                        <div
-                            id="timerBar"
-                            class="bg-gradient-to-r from-yellow-400 to-orange-500 h-2 rounded-full transition-all duration-1000"
-                            style="width: 100%"
-                        ></div>
-                    </div>
-                </div>
-
-                <!-- Stats Dashboard -->
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <div class="card-glass rounded-xl p-6 text-center">
-                        <div class="flex items-center justify-center mb-2">
-                            <span class="text-2xl mr-2">💰</span>
-                            <p class="text-sm font-medium text-gray-400">
-                                Cash
-                            </p>
-                        </div>
-                        <p id="cash" class="text-2xl font-bold text-white">
-                            $10,000
-                        </p>
-                    </div>
-                    <div class="card-glass rounded-xl p-6 text-center">
-                        <div class="flex items-center justify-center mb-2">
-                            <span class="text-2xl mr-2">📈</span>
-                            <p class="text-sm font-medium text-gray-400">
-                                Shares
-                            </p>
-                        </div>
-                        <p id="shares" class="text-2xl font-bold text-white">
-                            0
-                        </p>
-                    </div>
-                    <div class="card-glass rounded-xl p-6 text-center">
-                        <div class="flex items-center justify-center mb-2">
-                            <span class="text-2xl mr-2">💎</span>
-                            <p class="text-sm font-medium text-gray-400">
-                                Price
-                            </p>
-                        </div>
-                        <p id="price" class="text-2xl font-bold price-up">
-                            $100.00
-                        </p>
-                    </div>
-                    <div class="card-glass rounded-xl p-6 text-center">
-                        <div class="flex items-center justify-center mb-2">
-                            <span class="text-2xl mr-2">📊</span>
-                            <p class="text-sm font-medium text-gray-400">
-                                Portfolio
-                            </p>
-                        </div>
-                        <p id="total" class="text-2xl font-bold text-white">
-                            $10,000
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Chart -->
-                <div class="card-glass rounded-2xl p-6 mb-8">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-xl font-semibold text-white">
-                            Live Market Data
-                        </h3>
-                        <div class="flex items-center space-x-2">
+                            class="flex items-center justify-center space-x-3 mb-2"
+                        >
                             <div
-                                class="w-2 h-2 bg-green-400 rounded-full animate-pulse"
+                                class="w-3 h-3 bg-yellow-400 rounded-full animate-pulse-slow"
                             ></div>
-                            <span class="text-sm text-gray-400">Live</span>
+                            <p class="text-lg font-medium text-gray-300">
+                                Session Time
+                            </p>
+                        </div>
+                        <p
+                            id="timer"
+                            class="text-5xl font-bold text-yellow-400 mb-2"
+                        >
+                            3:00
+                        </p>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div
+                                id="timerBar"
+                                class="bg-gradient-to-r from-yellow-400 to-orange-500 h-2 rounded-full transition-all duration-1000"
+                                style="width: 100%"
+                            ></div>
                         </div>
                     </div>
-                    <canvas
-                        id="chart"
-                        width="900"
-                        height="300"
-                        class="w-full h-80 rounded-xl chart-glow"
-                    ></canvas>
-                </div>
 
-                <!-- Trading Controls -->
-                <div class="card-glass rounded-2xl p-6">
-                    <h3
-                        class="text-xl font-semibold text-white mb-6 text-center"
-                    >
-                        Trading Panel
-                    </h3>
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <!-- Buy Section -->
-                        <div class="space-y-4">
-                            <div class="flex items-center space-x-2 mb-4">
-                                <div
-                                    class="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center"
-                                >
-                                    <span class="text-white text-sm">📈</span>
-                                </div>
-                                <h4
-                                    class="text-lg font-semibold text-green-400"
-                                >
-                                    Buy Orders
-                                </h4>
+                    <!-- Stats Dashboard -->
+                    <div class="grid grid-cols-4 gap-4 mb-8">
+                        <div class="card-glass rounded-xl p-6 text-center">
+                            <div class="flex items-center justify-center mb-2">
+                                <span class="text-2xl mr-2">💰</span>
+                                <p class="text-sm font-medium text-gray-400">
+                                    Cash
+                                </p>
                             </div>
-                            <div class="grid grid-cols-3 gap-3">
-                                <button
-                                    onclick="buyShares(1)"
-                                    class="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 glow-green hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                                >
-                                    Buy 1
-                                </button>
-                                <button
-                                    onclick="buyShares(5)"
-                                    class="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 glow-green hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                                >
-                                    Buy 5
-                                </button>
-                                <button
-                                    onclick="buyShares('max')"
-                                    class="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 glow-green hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                                >
-                                    Buy Max
-                                </button>
+                            <p id="cash" class="text-2xl font-bold text-white">
+                                $10,000
+                            </p>
+                        </div>
+                        <div class="card-glass rounded-xl p-6 text-center">
+                            <div class="flex items-center justify-center mb-2">
+                                <span class="text-2xl mr-2">📈</span>
+                                <p class="text-sm font-medium text-gray-400">
+                                    Shares
+                                </p>
+                            </div>
+                            <p
+                                id="shares"
+                                class="text-2xl font-bold text-white"
+                            >
+                                0
+                            </p>
+                        </div>
+                        <div class="card-glass rounded-xl p-6 text-center">
+                            <div class="flex items-center justify-center mb-2">
+                                <span class="text-2xl mr-2">💎</span>
+                                <p class="text-sm font-medium text-gray-400">
+                                    Price
+                                </p>
+                            </div>
+                            <p id="price" class="text-2xl font-bold price-up">
+                                $100.00
+                            </p>
+                        </div>
+                        <div class="card-glass rounded-xl p-6 text-center">
+                            <div class="flex items-center justify-center mb-2">
+                                <span class="text-2xl mr-2">📊</span>
+                                <p class="text-sm font-medium text-gray-400">
+                                    Portfolio
+                                </p>
+                            </div>
+                            <p id="total" class="text-2xl font-bold text-white">
+                                $10,000
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Chart -->
+                    <div class="card-glass rounded-2xl p-6 mb-8">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-semibold text-white">
+                                Live Market Data
+                            </h3>
+                            <div class="flex items-center space-x-2">
+                                <div
+                                    class="w-2 h-2 bg-green-400 rounded-full animate-pulse"
+                                ></div>
+                                <span class="text-sm text-gray-400">Live</span>
                             </div>
                         </div>
+                        <canvas
+                            id="chart-desktop"
+                            width="900"
+                            height="300"
+                            class="w-full h-80 rounded-xl chart-glow"
+                        ></canvas>
+                    </div>
 
-                        <!-- Sell Section -->
-                        <div class="space-y-4">
-                            <div class="flex items-center space-x-2 mb-4">
-                                <div
-                                    class="w-8 h-8 bg-gradient-to-r from-red-500 to-pink-500 rounded-lg flex items-center justify-center"
-                                >
-                                    <span class="text-white text-sm">📉</span>
+                    <!-- Trading Controls -->
+                    <div class="card-glass rounded-2xl p-6">
+                        <h3
+                            class="text-xl font-semibold text-white mb-6 text-center"
+                        >
+                            Trading Panel
+                        </h3>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <!-- Buy Section -->
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-2 mb-4">
+                                    <div
+                                        class="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center"
+                                    >
+                                        <span class="text-white text-sm"
+                                            >📈</span
+                                        >
+                                    </div>
+                                    <h4
+                                        class="text-lg font-semibold text-green-400"
+                                    >
+                                        Buy Orders
+                                    </h4>
                                 </div>
-                                <h4 class="text-lg font-semibold text-red-400">
-                                    Sell Orders
-                                </h4>
+                                <div class="grid grid-cols-3 gap-3">
+                                    <button
+                                        onclick="buyShares(1)"
+                                        class="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 glow-green hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                                    >
+                                        Buy 1
+                                    </button>
+                                    <button
+                                        onclick="buyShares(5)"
+                                        class="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 glow-green hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                                    >
+                                        Buy 5
+                                    </button>
+                                    <button
+                                        onclick="buyShares('max')"
+                                        class="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 glow-green hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                                    >
+                                        Buy Max
+                                    </button>
+                                </div>
                             </div>
-                            <div class="grid grid-cols-3 gap-3">
-                                <button
-                                    onclick="sellShares(1)"
-                                    class="bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 glow-red hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                                >
-                                    Sell 1
-                                </button>
-                                <button
-                                    onclick="sellShares(5)"
-                                    class="bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 glow-red hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                                >
-                                    Sell 5
-                                </button>
-                                <button
-                                    onclick="sellShares('max')"
-                                    class="bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 glow-red hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                                >
-                                    Sell Max
-                                </button>
+                            <!-- Sell Section -->
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-2 mb-4">
+                                    <div
+                                        class="w-8 h-8 bg-gradient-to-r from-red-500 to-pink-500 rounded-lg flex items-center justify-center"
+                                    >
+                                        <span class="text-white text-sm"
+                                            >📉</span
+                                        >
+                                    </div>
+                                    <h4
+                                        class="text-lg font-semibold text-red-400"
+                                    >
+                                        Sell Orders
+                                    </h4>
+                                </div>
+                                <div class="grid grid-cols-3 gap-3">
+                                    <button
+                                        onclick="sellShares(1)"
+                                        class="bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 glow-red hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                                    >
+                                        Sell 1
+                                    </button>
+                                    <button
+                                        onclick="sellShares(5)"
+                                        class="bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 glow-red hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                                    >
+                                        Sell 5
+                                    </button>
+                                    <button
+                                        onclick="sellShares('max')"
+                                        class="bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 glow-red hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                                    >
+                                        Sell Max
+                                    </button>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Layout (visible on mobile) -->
+                <div class="lg:hidden">
+                    <!-- Mobile Header with Timer and Key Stats -->
+                    <div class="card-glass rounded-xl p-4 mb-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center space-x-2">
+                                <div
+                                    class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"
+                                ></div>
+                                <p
+                                    id="timer"
+                                    class="text-2xl font-bold text-yellow-400"
+                                >
+                                    3:00
+                                </p>
+                            </div>
+                            <div class="text-right">
+                                <p
+                                    id="price"
+                                    class="text-xl font-bold price-up"
+                                >
+                                    $100.00
+                                </p>
+                                <p class="text-xs text-gray-400">
+                                    Current Price
+                                </p>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-1.5">
+                            <div
+                                id="timerBar"
+                                class="bg-gradient-to-r from-yellow-400 to-orange-500 h-1.5 rounded-full transition-all duration-1000"
+                                style="width: 100%"
+                            ></div>
+                        </div>
+                    </div>
+
+                    <!-- Compact Stats Row -->
+                    <div class="grid grid-cols-3 gap-2 mb-4">
+                        <div class="card-glass rounded-lg p-3 text-center">
+                            <p class="text-xs text-gray-400 mb-1">Cash</p>
+                            <p id="cash" class="text-sm font-bold text-white">
+                                $10,000
+                            </p>
+                        </div>
+                        <div class="card-glass rounded-lg p-3 text-center">
+                            <p class="text-xs text-gray-400 mb-1">Shares</p>
+                            <p id="shares" class="text-sm font-bold text-white">
+                                0
+                            </p>
+                        </div>
+                        <div class="card-glass rounded-lg p-3 text-center">
+                            <p class="text-xs text-gray-400 mb-1">Portfolio</p>
+                            <p id="total" class="text-sm font-bold text-white">
+                                $10,000
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Chart - Main Focus -->
+                    <div class="card-glass rounded-xl p-4 mb-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center space-x-2">
+                                <div
+                                    class="w-2 h-2 bg-green-400 rounded-full animate-pulse"
+                                ></div>
+                                <span class="text-sm text-gray-400"
+                                    >Live Market</span
+                                >
+                            </div>
+                            <div class="text-xs text-gray-500">
+                                <span id="chartTime">00:00</span>
+                            </div>
+                        </div>
+                        <canvas
+                            id="chart-mobile"
+                            width="900"
+                            height="300"
+                            class="w-full h-64 rounded-lg chart-glow"
+                            style="max-width: 100%; display: block"
+                        ></canvas>
+                    </div>
+
+                    <!-- Compact Trading Controls -->
+                    <div class="space-y-3">
+                        <!-- Buy Buttons -->
+                        <div class="flex space-x-2">
+                            <button
+                                onclick="buyShares(1)"
+                                class="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 glow-green hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                            >
+                                📈 Buy 1
+                            </button>
+                            <button
+                                onclick="buyShares(5)"
+                                class="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 glow-green hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                            >
+                                📈 Buy 5
+                            </button>
+                            <button
+                                onclick="buyShares('max')"
+                                class="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 glow-green hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                            >
+                                📈 Max
+                            </button>
+                        </div>
+
+                        <!-- Sell Buttons -->
+                        <div class="flex space-x-2">
+                            <button
+                                onclick="sellShares(1)"
+                                class="flex-1 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 glow-red hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                            >
+                                📉 Sell 1
+                            </button>
+                            <button
+                                onclick="sellShares(5)"
+                                class="flex-1 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 glow-red hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                            >
+                                📉 Sell 5
+                            </button>
+                            <button
+                                onclick="sellShares('max')"
+                                class="flex-1 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 glow-red hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                            >
+                                📉 Max
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -467,7 +609,6 @@
             let shares = 0;
             let price = 100;
             let history = [price];
-            const ctx = document.getElementById("chart").getContext("2d");
             let trades = []; // { index: number, price: number, side: 'buy'|'sell' }
             let timeIndex = 0; // global index of the last point in history
             const historyMaxLen = 300;
@@ -748,8 +889,30 @@
             }
 
             function drawChart() {
-                const w = ctx.canvas.width;
-                const h = ctx.canvas.height;
+                // Find the visible canvas (desktop or mobile)
+                let canvas = document.getElementById("chart-desktop");
+                let isVisible = canvas && canvas.offsetParent !== null;
+
+                if (!isVisible) {
+                    canvas = document.getElementById("chart-mobile");
+                    isVisible = canvas && canvas.offsetParent !== null;
+                }
+
+                if (!canvas || !isVisible) {
+                    return;
+                }
+
+                const rect = canvas.getBoundingClientRect();
+
+                // Set canvas size to match display size
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+
+                const w = canvas.width;
+                const h = canvas.height;
+
+                // Get the context for this specific canvas
+                const ctx = canvas.getContext("2d");
                 ctx.clearRect(0, 0, w, h);
 
                 // Compute dynamic y scale with padding
@@ -785,7 +948,7 @@
                     ctx.lineTo(x, y);
                 }
                 ctx.strokeStyle = "lime";
-                ctx.lineWidth = 2;
+                ctx.lineWidth = 3; // Make line thicker for mobile visibility
                 ctx.stroke();
 
                 // Draw trade markers within current window
@@ -810,11 +973,17 @@
             function updateTimer() {
                 const minutes = Math.floor(timeRemaining / 60);
                 const seconds = timeRemaining % 60;
-                document.getElementById(
-                    "timer"
-                ).textContent = `${minutes}:${seconds
+                const timeString = `${minutes}:${seconds
                     .toString()
                     .padStart(2, "0")}`;
+
+                document.getElementById("timer").textContent = timeString;
+
+                // Update chart time display
+                const chartTimeElement = document.getElementById("chartTime");
+                if (chartTimeElement) {
+                    chartTimeElement.textContent = timeString;
+                }
 
                 // Update progress bar
                 const progress = (timeRemaining / GAME_DURATION_SECONDS) * 100;
@@ -876,6 +1045,12 @@
                 // Start the game
                 updateUI();
                 updateTimer();
+
+                // Force chart redraw after a short delay to ensure mobile layout is ready
+                setTimeout(() => {
+                    drawChart();
+                }, 100);
+
                 timerInterval = setInterval(() => {
                     timeRemaining--;
                     updateTimer();
@@ -993,6 +1168,13 @@
                 );
                 if (ogImageMeta) ogImageMeta.content = ogImage;
                 if (twitterImageMeta) twitterImageMeta.content = ogImage;
+            });
+
+            // Handle window resize for responsive chart
+            window.addEventListener("resize", function () {
+                if (gameActive) {
+                    drawChart();
+                }
             });
 
             // Initialize the start screen (no auto-start)
