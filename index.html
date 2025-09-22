@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>TradeMaster Pro - Professional Trading Simulator</title>
+        <meta
+            name="description"
+            content="Master the markets in 3 minutes! TradeMaster Pro is a realistic stock trading simulator with volatile markets, bull/bear cycles, and professional-grade features. Can you beat the market?"
+        />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://trademaster-pro.vercel.app/" />
+        <meta
+            property="og:title"
+            content="TradeMaster Pro - Professional Trading Simulator"
+        />
+        <meta
+            property="og:description"
+            content="Master the markets in 3 minutes! Realistic stock trading simulator with volatile markets, bull/bear cycles, and professional features. Challenge your friends!"
+        />
+        <meta
+            property="og:image"
+            content="https://trademaster-pro.vercel.app/og-image.png"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="TradeMaster Pro" />
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta
+            property="twitter:url"
+            content="https://trademaster-pro.vercel.app/"
+        />
+        <meta
+            property="twitter:title"
+            content="TradeMaster Pro - Professional Trading Simulator"
+        />
+        <meta
+            property="twitter:description"
+            content="Master the markets in 3 minutes! Realistic stock trading simulator with volatile markets, bull/bear cycles, and professional features. Challenge your friends!"
+        />
+        <meta
+            property="twitter:image"
+            content="https://trademaster-pro.vercel.app/og-image.png"
+        />
+        <meta property="twitter:creator" content="@yourusername" />
+
+        <!-- Additional SEO -->
+        <meta
+            name="keywords"
+            content="trading game, stock simulator, finance game, trading simulator, stock market game, investment game, trading challenge"
+        />
+        <meta name="author" content="TradeMaster Pro" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            body {
+                font-family: "Inter", sans-serif;
+            }
+            .gradient-bg {
+                background: linear-gradient(
+                    135deg,
+                    #0f0f23 0%,
+                    #1a1a2e 50%,
+                    #16213e 100%
+                );
+            }
+            .card-glass {
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .price-up {
+                color: #00d4aa;
+            }
+            .price-down {
+                color: #ff6b6b;
+            }
+            .glow-green {
+                box-shadow: 0 0 20px rgba(0, 212, 170, 0.3);
+            }
+            .glow-red {
+                box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+            }
+            .glow-blue {
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+            }
+            .animate-pulse-slow {
+                animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            }
+            .chart-glow {
+                filter: drop-shadow(0 0 10px rgba(0, 212, 170, 0.4));
+            }
+        </style>
+    </head>
+    <body class="gradient-bg text-white min-h-screen">
+        <div class="container mx-auto px-4 py-8 max-w-6xl">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center space-x-3 mb-2">
+                    <div
+                        class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center"
+                    >
+                        <span class="text-xl">📊</span>
+                    </div>
+                    <h1
+                        class="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+                    >
+                        TradeMaster Pro
+                    </h1>
+                </div>
+                <p class="text-gray-400 text-lg">
+                    Professional Trading Simulator
+                </p>
+            </div>
+
+            <!-- Start Screen -->
+            <div
+                id="startScreen"
+                class="card-glass rounded-2xl p-8 max-w-4xl mx-auto"
+            >
+                <div class="text-center mb-8">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 glow-blue"
+                    >
+                        <span class="text-3xl">⚡</span>
+                    </div>
+                    <h2
+                        class="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+                    >
+                        Ready to Trade?
+                    </h2>
+                    <p class="text-gray-400 text-lg">
+                        Master the markets in 3 minutes
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6 mb-8">
+                    <div class="card-glass rounded-xl p-6 text-center">
+                        <div
+                            class="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mx-auto mb-4 glow-green"
+                        >
+                            <span class="text-2xl">🎯</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-green-400">
+                            Objective
+                        </h3>
+                        <p class="text-gray-300 text-sm">
+                            Maximize your $10,000 portfolio in 3 minutes
+                        </p>
+                    </div>
+
+                    <div class="card-glass rounded-xl p-6 text-center">
+                        <div
+                            class="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center mx-auto mb-4"
+                        >
+                            <span class="text-2xl">📊</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-yellow-400">
+                            Strategy
+                        </h3>
+                        <p class="text-gray-300 text-sm">
+                            Buy low, sell high with precision timing
+                        </p>
+                    </div>
+
+                    <div class="card-glass rounded-xl p-6 text-center">
+                        <div
+                            class="w-12 h-12 bg-gradient-to-r from-red-500 to-pink-500 rounded-xl flex items-center justify-center mx-auto mb-4 glow-red"
+                        >
+                            <span class="text-2xl">⚡</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-red-400">
+                            Volatility
+                        </h3>
+                        <p class="text-gray-300 text-sm">
+                            High-risk, high-reward market dynamics
+                        </p>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button
+                        onclick="startGame()"
+                        class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-12 rounded-xl text-xl transition-all duration-300 glow-blue hover:scale-105 transform"
+                    >
+                        🚀 Start Trading
+                    </button>
+                </div>
+            </div>
+
+            <!-- Game Screen (hidden initially) -->
+            <div id="gameScreen" class="hidden">
+                <!-- Timer -->
+                <div class="card-glass rounded-2xl p-6 mb-8 text-center">
+                    <div
+                        class="flex items-center justify-center space-x-3 mb-2"
+                    >
+                        <div
+                            class="w-3 h-3 bg-yellow-400 rounded-full animate-pulse-slow"
+                        ></div>
+                        <p class="text-lg font-medium text-gray-300">
+                            Session Time
+                        </p>
+                    </div>
+                    <p
+                        id="timer"
+                        class="text-5xl font-bold text-yellow-400 mb-2"
+                    >
+                        3:00
+                    </p>
+                    <div class="w-full bg-gray-700 rounded-full h-2">
+                        <div
+                            id="timerBar"
+                            class="bg-gradient-to-r from-yellow-400 to-orange-500 h-2 rounded-full transition-all duration-1000"
+                            style="width: 100%"
+                        ></div>
+                    </div>
+                </div>
+
+                <!-- Stats Dashboard -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="card-glass rounded-xl p-6 text-center">
+                        <div class="flex items-center justify-center mb-2">
+                            <span class="text-2xl mr-2">💰</span>
+                            <p class="text-sm font-medium text-gray-400">
+                                Cash
+                            </p>
+                        </div>
+                        <p id="cash" class="text-2xl font-bold text-white">
+                            $10,000
+                        </p>
+                    </div>
+                    <div class="card-glass rounded-xl p-6 text-center">
+                        <div class="flex items-center justify-center mb-2">
+                            <span class="text-2xl mr-2">📈</span>
+                            <p class="text-sm font-medium text-gray-400">
+                                Shares
+                            </p>
+                        </div>
+                        <p id="shares" class="text-2xl font-bold text-white">
+                            0
+                        </p>
+                    </div>
+                    <div class="card-glass rounded-xl p-6 text-center">
+                        <div class="flex items-center justify-center mb-2">
+                            <span class="text-2xl mr-2">💎</span>
+                            <p class="text-sm font-medium text-gray-400">
+                                Price
+                            </p>
+                        </div>
+                        <p id="price" class="text-2xl font-bold price-up">
+                            $100.00
+                        </p>
+                    </div>
+                    <div class="card-glass rounded-xl p-6 text-center">
+                        <div class="flex items-center justify-center mb-2">
+                            <span class="text-2xl mr-2">📊</span>
+                            <p class="text-sm font-medium text-gray-400">
+                                Portfolio
+                            </p>
+                        </div>
+                        <p id="total" class="text-2xl font-bold text-white">
+                            $10,000
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Chart -->
+                <div class="card-glass rounded-2xl p-6 mb-8">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-semibold text-white">
+                            Live Market Data
+                        </h3>
+                        <div class="flex items-center space-x-2">
+                            <div
+                                class="w-2 h-2 bg-green-400 rounded-full animate-pulse"
+                            ></div>
+                            <span class="text-sm text-gray-400">Live</span>
+                        </div>
+                    </div>
+                    <canvas
+                        id="chart"
+                        width="900"
+                        height="300"
+                        class="w-full h-80 rounded-xl chart-glow"
+                    ></canvas>
+                </div>
+
+                <!-- Trading Controls -->
+                <div class="card-glass rounded-2xl p-6">
+                    <h3
+                        class="text-xl font-semibold text-white mb-6 text-center"
+                    >
+                        Trading Panel
+                    </h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Buy Section -->
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-2 mb-4">
+                                <div
+                                    class="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center"
+                                >
+                                    <span class="text-white text-sm">📈</span>
+                                </div>
+                                <h4
+                                    class="text-lg font-semibold text-green-400"
+                                >
+                                    Buy Orders
+                                </h4>
+                            </div>
+                            <div class="grid grid-cols-3 gap-3">
+                                <button
+                                    onclick="buyShares(1)"
+                                    class="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 glow-green hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                                >
+                                    Buy 1
+                                </button>
+                                <button
+                                    onclick="buyShares(5)"
+                                    class="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 glow-green hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                                >
+                                    Buy 5
+                                </button>
+                                <button
+                                    onclick="buyShares('max')"
+                                    class="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 glow-green hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                                >
+                                    Buy Max
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Sell Section -->
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-2 mb-4">
+                                <div
+                                    class="w-8 h-8 bg-gradient-to-r from-red-500 to-pink-500 rounded-lg flex items-center justify-center"
+                                >
+                                    <span class="text-white text-sm">📉</span>
+                                </div>
+                                <h4 class="text-lg font-semibold text-red-400">
+                                    Sell Orders
+                                </h4>
+                            </div>
+                            <div class="grid grid-cols-3 gap-3">
+                                <button
+                                    onclick="sellShares(1)"
+                                    class="bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 glow-red hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                                >
+                                    Sell 1
+                                </button>
+                                <button
+                                    onclick="sellShares(5)"
+                                    class="bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 glow-red hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                                >
+                                    Sell 5
+                                </button>
+                                <button
+                                    onclick="sellShares('max')"
+                                    class="bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 glow-red hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                                >
+                                    Sell Max
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Modal (hidden initially) -->
+            <div
+                id="resultsModal"
+                class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm flex items-center justify-center hidden z-50"
+            >
+                <div
+                    class="card-glass rounded-3xl p-8 max-w-lg w-full mx-4 text-center"
+                >
+                    <div
+                        class="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 glow-blue"
+                    >
+                        <span class="text-4xl">🏆</span>
+                    </div>
+                    <h2
+                        class="text-3xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+                    >
+                        Session Complete!
+                    </h2>
+                    <p class="text-gray-400 mb-8">Your trading performance</p>
+
+                    <div class="space-y-6">
+                        <div class="card-glass rounded-xl p-6">
+                            <p class="text-sm text-gray-400 mb-2">
+                                Final Portfolio Value
+                            </p>
+                            <p
+                                id="finalValue"
+                                class="text-4xl font-bold text-white"
+                            >
+                                $0
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="card-glass rounded-xl p-4">
+                                <p class="text-sm text-gray-400 mb-1">
+                                    Starting Value
+                                </p>
+                                <p class="text-xl font-semibold text-white">
+                                    $10,000
+                                </p>
+                            </div>
+                            <div class="card-glass rounded-xl p-4">
+                                <p class="text-sm text-gray-400 mb-1">Return</p>
+                                <p
+                                    id="returnPercent"
+                                    class="text-xl font-semibold"
+                                >
+                                    0%
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="card-glass rounded-xl p-6">
+                            <p class="text-sm text-gray-400 mb-2">
+                                Profit/Loss
+                            </p>
+                            <p id="profitLoss" class="text-3xl font-bold">$0</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 space-y-4">
+                        <button
+                            onclick="restartGame()"
+                            class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 glow-blue hover:scale-105 transform"
+                        >
+                            🔄 Trade Again
+                        </button>
+
+                        <button
+                            onclick="shareOnX()"
+                            class="w-full bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 hover:scale-105 transform border border-gray-600"
+                        >
+                            🐦 Share on X
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Game configuration
+            const GAME_DURATION_SECONDS = 180; // Change this to set game duration (10 for testing, 180 for 3 minutes)
+
+            // Game state
+            let cash = 10000;
+            let shares = 0;
+            let price = 100;
+            let history = [price];
+            const ctx = document.getElementById("chart").getContext("2d");
+            let trades = []; // { index: number, price: number, side: 'buy'|'sell' }
+            let timeIndex = 0; // global index of the last point in history
+            const historyMaxLen = 300;
+
+            // Timer state
+            let timeRemaining = GAME_DURATION_SECONDS;
+            let gameActive = true;
+            let timerInterval = null;
+
+            // --- Price model state (realistic stochastic process) ---
+            // Work in log-price for numerical stability
+            let logPrice = Math.log(price);
+
+            // Regime (bull/bear) with different annual drifts
+            let regime = "bull"; // "bull" or "bear"
+            const regimeAnnualDrift = { bull: 0.3, bear: -0.3 }; // ~±30% per year drift - much stronger trends
+            const regimeSwitchProbabilityPerTick = 0.005; // ~0.5% chance to switch per tick - more frequent regime changes
+
+            // Mean reversion target for log-price (toward initial price level)
+            const longTermLogMean = Math.log(100);
+            const meanReversionSpeed = 0.2; // kappa
+
+            // Volatility (GARCH-like clustering) - annualized starting volatility
+            let variance = Math.pow(0.8, 2); // (80% annual vol)^2 - much higher starting volatility
+            let lastLogReturn = 0;
+            // GARCH(1,1)-style params (kept simple)
+            const garchOmega = Math.pow(0.3, 2) * 1e-6; // higher base variance per tick
+            const garchAlpha = 0.2; // higher weight on last squared return
+            const garchBeta = 0.75; // lower persistence for more volatility clustering
+            const minAnnualVol = 0.2; // floor 20% - much higher minimum
+            const maxAnnualVol = 2.0; // cap 200% - much higher maximum
+
+            // Jumps (rare news shocks) in log-returns
+            const jumpProbabilityPerTick = 0.03; // 3% chance per tick - more frequent jumps
+            const jumpMean = 0.0; // symmetric on average
+            const jumpStdDev = 0.15; // ~15% log-return std when jump happens - much bigger jumps
+
+            // Time step: assume 252 trading days, 6.5 trading hours/day → ~23400s/day
+            // Here tick is 1s, so dt ≈ 1 / (252*23400) ≈ 1.7e-7. That's too small for a toy.
+            // For gameplay, use a larger effective dt so changes are visible.
+            const effectiveDt = 1 / 252; // treat each second like ~1 trading day for fun
+
+            // Gaussian RNG (Box–Muller) with one-sample cache
+            let _randnCache = null;
+            function randn() {
+                if (_randnCache !== null) {
+                    const v = _randnCache;
+                    _randnCache = null;
+                    return v;
+                }
+                let u1 = 0,
+                    u2 = 0;
+                while (u1 === 0) u1 = Math.random();
+                while (u2 === 0) u2 = Math.random();
+                const mag = Math.sqrt(-2.0 * Math.log(u1));
+                const z0 = mag * Math.cos(2.0 * Math.PI * u2);
+                const z1 = mag * Math.sin(2.0 * Math.PI * u2);
+                _randnCache = z1;
+                return z0;
+            }
+
+            function updateUI() {
+                document.getElementById("cash").innerText = `$${cash.toFixed(
+                    2
+                )}`;
+                document.getElementById("shares").innerText = shares;
+
+                // Update price with color coding
+                const priceElement = document.getElementById("price");
+                const currentPrice = price.toFixed(2);
+                priceElement.innerText = `$${currentPrice}`;
+
+                // Color code based on previous price
+                if (window.lastPrice) {
+                    if (price > window.lastPrice) {
+                        priceElement.className = "text-2xl font-bold price-up";
+                    } else if (price < window.lastPrice) {
+                        priceElement.className =
+                            "text-2xl font-bold price-down";
+                    }
+                }
+                window.lastPrice = price;
+
+                document.getElementById("total").innerText = `$${(
+                    cash +
+                    shares * price
+                ).toFixed(2)}`;
+                updateButtonStates();
+                drawChart();
+            }
+
+            function updateButtonStates() {
+                if (!gameActive) return;
+
+                const affordable = Math.floor(cash / price);
+                const buy1Btn = document.querySelector(
+                    'button[onclick="buyShares(1)"]'
+                );
+                const buy5Btn = document.querySelector(
+                    'button[onclick="buyShares(5)"]'
+                );
+                const buyMaxBtn = document.querySelector(
+                    "button[onclick=\"buyShares('max')\"]"
+                );
+                const sell1Btn = document.querySelector(
+                    'button[onclick="sellShares(1)"]'
+                );
+                const sell5Btn = document.querySelector(
+                    'button[onclick="sellShares(5)"]'
+                );
+                const sellMaxBtn = document.querySelector(
+                    "button[onclick=\"sellShares('max')\"]"
+                );
+
+                // Buy buttons - disable if not enough cash
+                if (affordable >= 1) {
+                    buy1Btn.disabled = false;
+                    buy1Btn.className =
+                        "bg-green-600 px-3 py-2 rounded-lg hover:bg-green-500";
+                } else {
+                    buy1Btn.disabled = true;
+                    buy1Btn.className =
+                        "bg-gray-500 px-3 py-2 rounded-lg cursor-not-allowed";
+                }
+
+                if (affordable >= 5) {
+                    buy5Btn.disabled = false;
+                    buy5Btn.className =
+                        "bg-green-600 px-3 py-2 rounded-lg hover:bg-green-500";
+                } else {
+                    buy5Btn.disabled = true;
+                    buy5Btn.className =
+                        "bg-gray-500 px-3 py-2 rounded-lg cursor-not-allowed";
+                }
+
+                if (affordable >= 1) {
+                    buyMaxBtn.disabled = false;
+                    buyMaxBtn.className =
+                        "bg-green-600 px-3 py-2 rounded-lg hover:bg-green-500";
+                } else {
+                    buyMaxBtn.disabled = true;
+                    buyMaxBtn.className =
+                        "bg-gray-500 px-3 py-2 rounded-lg cursor-not-allowed";
+                }
+
+                // Sell buttons - disable if not enough shares
+                if (shares >= 1) {
+                    sell1Btn.disabled = false;
+                    sell1Btn.className =
+                        "bg-red-600 px-3 py-2 rounded-lg hover:bg-red-500";
+                } else {
+                    sell1Btn.disabled = true;
+                    sell1Btn.className =
+                        "bg-gray-500 px-3 py-2 rounded-lg cursor-not-allowed";
+                }
+
+                if (shares >= 5) {
+                    sell5Btn.disabled = false;
+                    sell5Btn.className =
+                        "bg-red-600 px-3 py-2 rounded-lg hover:bg-red-500";
+                } else {
+                    sell5Btn.disabled = true;
+                    sell5Btn.className =
+                        "bg-gray-500 px-3 py-2 rounded-lg cursor-not-allowed";
+                }
+
+                if (shares >= 1) {
+                    sellMaxBtn.disabled = false;
+                    sellMaxBtn.className =
+                        "bg-red-600 px-3 py-2 rounded-lg hover:bg-red-500";
+                } else {
+                    sellMaxBtn.disabled = true;
+                    sellMaxBtn.className =
+                        "bg-gray-500 px-3 py-2 rounded-lg cursor-not-allowed";
+                }
+            }
+
+            function buyShares(amount) {
+                if (!gameActive) return;
+                const affordable = Math.floor(cash / price);
+                let toBuy = 0;
+                if (amount === "max") {
+                    toBuy = affordable;
+                } else {
+                    toBuy = Math.min(affordable, Math.max(0, amount));
+                }
+                if (toBuy > 0) {
+                    shares += toBuy;
+                    cash -= toBuy * price;
+                    trades.push({
+                        index: timeIndex,
+                        price: price,
+                        side: "buy",
+                    });
+                    updateUI();
+                }
+            }
+
+            function sellShares(amount) {
+                if (!gameActive) return;
+                let toSell = 0;
+                if (amount === "max") {
+                    toSell = shares;
+                } else {
+                    toSell = Math.min(shares, Math.max(0, amount));
+                }
+                if (toSell > 0) {
+                    cash += toSell * price;
+                    shares -= toSell;
+                    trades.push({
+                        index: timeIndex,
+                        price: price,
+                        side: "sell",
+                    });
+                    updateUI();
+                }
+            }
+
+            function tick() {
+                if (!gameActive) return;
+
+                // Occasionally switch regimes
+                if (Math.random() < regimeSwitchProbabilityPerTick) {
+                    regime = regime === "bull" ? "bear" : "bull";
+                }
+
+                // Convert current annualized variance to per-tick (effective) variance
+                // variance here is annualized; sigmaAnnual = sqrt(variance)
+                const sigmaAnnual = Math.sqrt(variance);
+                const sigmaPerTick = sigmaAnnual * Math.sqrt(effectiveDt);
+
+                // Drift (risk-neutral adjustment simplified): regime drift - 0.5*sigma^2
+                const annualDrift = regimeAnnualDrift[regime];
+                const driftTerm =
+                    (annualDrift - 0.5 * Math.pow(sigmaAnnual, 2)) *
+                    effectiveDt;
+
+                // Mean reversion toward long-term mean in log space
+                const meanReversionTerm =
+                    meanReversionSpeed *
+                    (longTermLogMean - logPrice) *
+                    effectiveDt;
+
+                // Diffusion term (Gaussian shock)
+                const diffusionTerm = sigmaPerTick * randn();
+
+                // Jump term (rare, larger shock)
+                const jumpTerm =
+                    Math.random() < jumpProbabilityPerTick
+                        ? jumpMean + jumpStdDev * randn()
+                        : 0;
+
+                // Update log price
+                const dLogP =
+                    driftTerm + meanReversionTerm + diffusionTerm + jumpTerm;
+                logPrice += dLogP;
+                price = Math.max(1, Math.exp(logPrice));
+
+                // Update variance with simple GARCH(1,1)
+                const newVariance =
+                    garchOmega +
+                    (garchAlpha * Math.pow(dLogP, 2)) /
+                        Math.max(effectiveDt, 1e-9) +
+                    garchBeta * variance;
+                // Clamp annualized volatility to reasonable bounds
+                const newSigmaAnnual = Math.min(
+                    maxAnnualVol,
+                    Math.max(minAnnualVol, Math.sqrt(newVariance))
+                );
+                variance = Math.pow(newSigmaAnnual, 2);
+                lastLogReturn = dLogP;
+
+                // Keep price history manageable
+                history.push(price);
+                timeIndex += 1;
+                if (history.length > historyMaxLen) history.shift();
+                updateUI();
+            }
+
+            function drawChart() {
+                const w = ctx.canvas.width;
+                const h = ctx.canvas.height;
+                ctx.clearRect(0, 0, w, h);
+
+                // Compute dynamic y scale with padding
+                const minP = Math.min(...history);
+                const maxP = Math.max(...history);
+                const range = Math.max(1e-6, maxP - minP);
+                const pad = range * 0.1;
+                const yMin = Math.max(0, minP - pad);
+                const yMax = maxP + pad;
+                const innerTop = 10;
+                const innerBottom = 10;
+                const innerHeight = Math.max(1, h - innerTop - innerBottom);
+
+                const n = history.length;
+                if (n === 0) return;
+
+                // Price line
+                ctx.beginPath();
+                const x0 = n === 1 ? 0 : 0;
+                const y0 =
+                    h -
+                    innerBottom -
+                    ((history[0] - yMin) / Math.max(1e-6, yMax - yMin)) *
+                        innerHeight;
+                ctx.moveTo(x0, y0);
+                for (let i = 0; i < n; i++) {
+                    const x = n === 1 ? 0 : (i / (n - 1)) * w;
+                    const y =
+                        h -
+                        innerBottom -
+                        ((history[i] - yMin) / Math.max(1e-6, yMax - yMin)) *
+                            innerHeight;
+                    ctx.lineTo(x, y);
+                }
+                ctx.strokeStyle = "lime";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Draw trade markers within current window
+                const windowStart = timeIndex - n + 1;
+                trades = trades.filter((t) => t.index >= windowStart - 5);
+                for (const t of trades) {
+                    if (t.index < windowStart) continue;
+                    const rel = t.index - windowStart;
+                    const x = n === 1 ? 0 : (rel / (n - 1)) * w;
+                    const y =
+                        h -
+                        innerBottom -
+                        ((t.price - yMin) / Math.max(1e-6, yMax - yMin)) *
+                            innerHeight;
+                    ctx.beginPath();
+                    ctx.arc(x, y, 6, 0, Math.PI * 2);
+                    ctx.fillStyle = t.side === "buy" ? "#22c55e" : "#ef4444"; // green/red
+                    ctx.fill();
+                }
+            }
+
+            function updateTimer() {
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                document.getElementById(
+                    "timer"
+                ).textContent = `${minutes}:${seconds
+                    .toString()
+                    .padStart(2, "0")}`;
+
+                // Update progress bar
+                const progress = (timeRemaining / GAME_DURATION_SECONDS) * 100;
+                document.getElementById(
+                    "timerBar"
+                ).style.width = `${progress}%`;
+
+                if (timeRemaining <= 0) {
+                    endGame();
+                }
+            }
+
+            function endGame() {
+                gameActive = false;
+                clearInterval(timerInterval);
+
+                const finalValue = cash + shares * price;
+                const profitLoss = finalValue - 10000;
+                const returnPercent = (profitLoss / 10000) * 100;
+
+                document.getElementById(
+                    "finalValue"
+                ).textContent = `$${finalValue.toFixed(2)}`;
+                document.getElementById("profitLoss").textContent = `$${
+                    profitLoss >= 0 ? "+" : ""
+                }${profitLoss.toFixed(2)}`;
+                document.getElementById("returnPercent").textContent = `${
+                    returnPercent >= 0 ? "+" : ""
+                }${returnPercent.toFixed(1)}%`;
+
+                // Color code the profit/loss
+                const profitElement = document.getElementById("profitLoss");
+                const returnElement = document.getElementById("returnPercent");
+                if (profitLoss >= 0) {
+                    profitElement.className =
+                        "text-2xl font-bold text-green-400";
+                    returnElement.className = "text-xl text-green-400";
+                } else {
+                    profitElement.className = "text-2xl font-bold text-red-400";
+                    returnElement.className = "text-xl text-red-400";
+                }
+
+                document
+                    .getElementById("resultsModal")
+                    .classList.remove("hidden");
+            }
+
+            function startGame() {
+                // Hide start screen, show game screen
+                document.getElementById("startScreen").classList.add("hidden");
+                document
+                    .getElementById("gameScreen")
+                    .classList.remove("hidden");
+
+                // Initialize game state
+                gameActive = true;
+                timeRemaining = GAME_DURATION_SECONDS;
+
+                // Start the game
+                updateUI();
+                updateTimer();
+                timerInterval = setInterval(() => {
+                    timeRemaining--;
+                    updateTimer();
+                }, 1000);
+                setInterval(tick, 200);
+            }
+
+            function shareOnX() {
+                const finalValue = cash + shares * price;
+                const profitLoss = finalValue - 10000;
+                const returnPercent = (profitLoss / 10000) * 100;
+
+                // Create shareable text
+                let shareText = `Just played TradeMaster Pro! 🚀\n\n`;
+                shareText += `Portfolio: $${finalValue.toFixed(2)}\n`;
+                shareText += `Return: ${
+                    returnPercent >= 0 ? "+" : ""
+                }${returnPercent.toFixed(1)}%\n\n`;
+                shareText += `Can you beat my score? Try it now! 📈\n\n`;
+                shareText += `${window.location.href} 🎮\n`;
+
+                // Create Twitter share URL
+                const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                    shareText
+                )}`;
+
+                // Open in new tab
+                window.open(shareUrl, "_blank", "width=600,height=400");
+            }
+
+            function restartGame() {
+                // Reset game state
+                cash = 10000;
+                shares = 0;
+                price = 100;
+                history = [price];
+                trades = [];
+                timeIndex = 0;
+                logPrice = Math.log(price);
+                variance = Math.pow(0.8, 2);
+                regime = "bull";
+                timeRemaining = GAME_DURATION_SECONDS;
+                gameActive = true;
+
+                // Clear intervals
+                clearInterval(timerInterval);
+
+                // Hide results modal, show game screen
+                document.getElementById("resultsModal").classList.add("hidden");
+                document
+                    .getElementById("gameScreen")
+                    .classList.remove("hidden");
+
+                // Restart game
+                updateUI();
+                updateTimer();
+                timerInterval = setInterval(() => {
+                    timeRemaining--;
+                    updateTimer();
+                }, 1000);
+                setInterval(tick, 200);
+            }
+
+            // Generate OG Image for social sharing
+            function generateOGImage() {
+                const canvas = document.createElement("canvas");
+                canvas.width = 1200;
+                canvas.height = 630;
+                const ctx = canvas.getContext("2d");
+
+                // Background gradient
+                const gradient = ctx.createLinearGradient(0, 0, 1200, 630);
+                gradient.addColorStop(0, "#0f0f23");
+                gradient.addColorStop(0.5, "#1a1a2e");
+                gradient.addColorStop(1, "#16213e");
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, 1200, 630);
+
+                // Title
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "bold 72px Inter, sans-serif";
+                ctx.textAlign = "center";
+                ctx.fillText("TradeMaster Pro", 600, 200);
+
+                // Subtitle
+                ctx.fillStyle = "#9ca3af";
+                ctx.font = "32px Inter, sans-serif";
+                ctx.fillText("Professional Trading Simulator", 600, 250);
+
+                // Features
+                ctx.fillStyle = "#00d4aa";
+                ctx.font = "28px Inter, sans-serif";
+                ctx.fillText("⚡ 3-Minute Trading Sessions", 300, 350);
+                ctx.fillText("📊 Realistic Market Dynamics", 900, 350);
+                ctx.fillText("🎯 Challenge Your Friends", 300, 420);
+                ctx.fillText("💎 Professional Interface", 900, 420);
+
+                // Call to action
+                ctx.fillStyle = "#3b82f6";
+                ctx.font = "bold 36px Inter, sans-serif";
+                ctx.fillText("Can you beat the market?", 600, 520);
+
+                return canvas.toDataURL("image/png");
+            }
+
+            // Set OG image when page loads
+            window.addEventListener("load", function () {
+                const ogImage = generateOGImage();
+                // Update meta tags with the generated image
+                const ogImageMeta = document.querySelector(
+                    'meta[property="og:image"]'
+                );
+                const twitterImageMeta = document.querySelector(
+                    'meta[property="twitter:image"]'
+                );
+                if (ogImageMeta) ogImageMeta.content = ogImage;
+                if (twitterImageMeta) twitterImageMeta.content = ogImage;
+            });
+
+            // Initialize the start screen (no auto-start)
+            updateUI();
+        </script>
+    </body>
+</html>
