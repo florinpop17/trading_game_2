@@ -2,51 +2,42 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <title>TradeMaster Pro - Fun Trading Game</title>
+        <title>TradeGame - Fun Trading Game</title>
         <meta
             name="description"
-            content="Master the markets in 60 seconds! TradeMaster Pro is a fun stock trading game with volatile markets, bull/bear cycles, and exciting features. Can you beat the market?"
+            content="Master the markets in 60 seconds! TradeGame is a fun stock trading game with volatile markets, bull/bear cycles, and exciting features. Can you beat the market?"
         />
 
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website" />
-        <meta
-            property="og:url"
-            content="https://trademaster-pro.sevalla.page/"
-        />
-        <meta
-            property="og:title"
-            content="TradeMaster Pro - Fun Trading Game"
-        />
+        <meta property="og:url" content="https://tradegame.sevalla.page/" />
+        <meta property="og:title" content="TradeGame - Fun Trading Game" />
         <meta
             property="og:description"
             content="Master the markets in 60 seconds! Fun stock trading game with volatile markets, bull/bear cycles, and exciting features. Challenge your friends!"
         />
         <meta
             property="og:image"
-            content="https://trademaster-pro.sevalla.page/og-image.png"
+            content="https://tradegame.sevalla.page/og-image.png"
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:site_name" content="TradeMaster Pro" />
+        <meta property="og:site_name" content="TradeGame" />
 
         <!-- Twitter -->
         <meta property="twitter:card" content="summary_large_image" />
         <meta
             property="twitter:url"
-            content="https://trademaster-pro.sevalla.page/"
+            content="https://tradegame.sevalla.page/"
         />
-        <meta
-            property="twitter:title"
-            content="TradeMaster Pro - Fun Trading Game"
-        />
+        <meta property="twitter:title" content="TradeGame - Fun Trading Game" />
         <meta
             property="twitter:description"
             content="Master the markets in 60 seconds! Fun stock trading game with volatile markets, bull/bear cycles, and exciting features. Challenge your friends!"
         />
         <meta
             property="twitter:image"
-            content="https://trademaster-pro.sevalla.page/og-image.png"
+            content="https://tradegame.sevalla.page/og-image.png"
         />
         <meta property="twitter:creator" content="@yourusername" />
 
@@ -55,7 +46,7 @@
             name="keywords"
             content="trading game, stock simulator, finance game, trading simulator, stock market game, investment game, trading challenge"
         />
-        <meta name="author" content="TradeMaster Pro" />
+        <meta name="author" content="TradeGame" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <script src="https://cdn.tailwindcss.com"></script>
@@ -103,46 +94,32 @@
             }
         </style>
     </head>
-    <body class="gradient-bg text-white min-h-screen">
+    <body
+        class="gradient-bg text-white min-h-screen flex items-start md:items-center justify-center"
+    >
         <div class="container mx-auto px-4 py-8 max-w-6xl">
-            <!-- Header -->
-            <div class="text-center mb-8">
-                <div class="inline-flex items-center space-x-3 mb-2">
-                    <div
-                        class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center"
-                    >
-                        <span class="text-xl">📊</span>
-                    </div>
-                    <h1
-                        class="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
-                    >
-                        TradeMaster Pro
-                    </h1>
-                </div>
-                <p class="text-gray-400 text-lg">Fun Trading Game</p>
-            </div>
-
             <!-- Start Screen -->
             <div
                 id="startScreen"
                 class="card-glass rounded-2xl p-8 max-w-4xl mx-auto"
             >
                 <div class="text-center mb-8">
-                    <div
-                        class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 glow-blue"
-                    >
-                        <span class="text-3xl">⚡</span>
+                    <div class="inline-flex items-center space-x-3 mb-2">
+                        <div
+                            class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center"
+                        >
+                            <span class="text-xl">📊</span>
+                        </div>
+                        <h1
+                            class="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+                        >
+                            TradeGame
+                        </h1>
                     </div>
-                    <h2
-                        class="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
-                    >
-                        Ready to Trade?
-                    </h2>
                     <p class="text-gray-400 text-lg">
                         Master the markets in 60 seconds
                     </p>
                 </div>
-
                 <div class="grid md:grid-cols-3 gap-6 mb-8">
                     <div class="card-glass rounded-xl p-6 text-center">
                         <div
@@ -1122,7 +1099,7 @@
                 const returnPercent = (profitLoss / 10000) * 100;
 
                 // Create shareable text
-                let shareText = `Just played TradeMaster Pro! 🚀\n\n`;
+                let shareText = `Just played TradeGame! 🚀\n\n`;
                 shareText += `Portfolio: $${finalValue.toFixed(2)}\n`;
                 shareText += `Return: ${
                     returnPercent >= 0 ? "+" : ""
@@ -1191,7 +1168,7 @@
                 ctx.fillStyle = "#ffffff";
                 ctx.font = "bold 72px Inter, sans-serif";
                 ctx.textAlign = "center";
-                ctx.fillText("TradeMaster Pro", 600, 200);
+                ctx.fillText("TradeGame", 600, 200);
 
                 // Subtitle
                 ctx.fillStyle = "#9ca3af";
