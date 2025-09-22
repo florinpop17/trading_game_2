@@ -225,114 +225,227 @@
 
             <!-- Game Screen (hidden initially) -->
             <div id="gameScreen" class="hidden">
-                <!-- Desktop Layout (hidden on mobile) -->
-                <div class="hidden lg:block">
-                    <!-- Timer -->
-                    <div class="card-glass rounded-2xl p-6 mb-8 text-center">
+                <!-- Unified Responsive Layout -->
+
+                <!-- Timer - Desktop only -->
+                <div
+                    class="hidden lg:block card-glass rounded-2xl p-6 mb-8 text-center"
+                >
+                    <div
+                        class="flex items-center justify-center space-x-3 mb-2"
+                    >
                         <div
-                            class="flex items-center justify-center space-x-3 mb-2"
+                            class="w-3 h-3 bg-yellow-400 rounded-full animate-pulse-slow"
+                        ></div>
+                        <p class="text-lg font-medium text-gray-300">
+                            Session Time
+                        </p>
+                    </div>
+                    <p
+                        id="timer"
+                        class="text-5xl font-bold text-yellow-400 mb-2"
+                    >
+                        3:00
+                    </p>
+                    <div class="w-full bg-gray-700 rounded-full h-2">
+                        <div
+                            id="timerBar"
+                            class="bg-gradient-to-r from-yellow-400 to-orange-500 h-2 rounded-full transition-all duration-1000"
+                            style="width: 100%"
+                        ></div>
+                    </div>
+                </div>
+
+                <!-- Stats Dashboard -->
+                <div
+                    class="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-4 mb-4 lg:mb-8"
+                >
+                    <div
+                        class="card-glass rounded-lg lg:rounded-xl p-3 lg:p-6 text-center"
+                    >
+                        <div
+                            class="flex items-center justify-center mb-1 lg:mb-2"
                         >
-                            <div
-                                class="w-3 h-3 bg-yellow-400 rounded-full animate-pulse-slow"
-                            ></div>
-                            <p class="text-lg font-medium text-gray-300">
-                                Session Time
+                            <span class="text-lg lg:text-2xl mr-1 lg:mr-2"
+                                >💰</span
+                            >
+                            <p
+                                class="text-xs lg:text-sm font-medium text-gray-400"
+                            >
+                                Cash
                             </p>
                         </div>
                         <p
-                            id="timer"
-                            class="text-5xl font-bold text-yellow-400 mb-2"
+                            id="cash"
+                            class="text-sm lg:text-2xl font-bold text-white"
                         >
-                            3:00
+                            $10,000
                         </p>
-                        <div class="w-full bg-gray-700 rounded-full h-2">
-                            <div
-                                id="timerBar"
-                                class="bg-gradient-to-r from-yellow-400 to-orange-500 h-2 rounded-full transition-all duration-1000"
-                                style="width: 100%"
-                            ></div>
-                        </div>
                     </div>
-
-                    <!-- Stats Dashboard -->
-                    <div class="grid grid-cols-4 gap-4 mb-8">
-                        <div class="card-glass rounded-xl p-6 text-center">
-                            <div class="flex items-center justify-center mb-2">
-                                <span class="text-2xl mr-2">💰</span>
-                                <p class="text-sm font-medium text-gray-400">
-                                    Cash
-                                </p>
-                            </div>
-                            <p id="cash" class="text-2xl font-bold text-white">
-                                $10,000
-                            </p>
-                        </div>
-                        <div class="card-glass rounded-xl p-6 text-center">
-                            <div class="flex items-center justify-center mb-2">
-                                <span class="text-2xl mr-2">📈</span>
-                                <p class="text-sm font-medium text-gray-400">
-                                    Shares
-                                </p>
-                            </div>
-                            <p
-                                id="shares"
-                                class="text-2xl font-bold text-white"
-                            >
-                                0
-                            </p>
-                        </div>
-                        <div class="card-glass rounded-xl p-6 text-center">
-                            <div class="flex items-center justify-center mb-2">
-                                <span class="text-2xl mr-2">💎</span>
-                                <p class="text-sm font-medium text-gray-400">
-                                    Price
-                                </p>
-                            </div>
-                            <p id="price" class="text-2xl font-bold price-up">
-                                $100.00
-                            </p>
-                        </div>
-                        <div class="card-glass rounded-xl p-6 text-center">
-                            <div class="flex items-center justify-center mb-2">
-                                <span class="text-2xl mr-2">📊</span>
-                                <p class="text-sm font-medium text-gray-400">
-                                    Portfolio
-                                </p>
-                            </div>
-                            <p id="total" class="text-2xl font-bold text-white">
-                                $10,000
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Chart -->
-                    <div class="card-glass rounded-2xl p-6 mb-8">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-xl font-semibold text-white">
-                                Live Market Data
-                            </h3>
-                            <div class="flex items-center space-x-2">
-                                <div
-                                    class="w-2 h-2 bg-green-400 rounded-full animate-pulse"
-                                ></div>
-                                <span class="text-sm text-gray-400">Live</span>
-                            </div>
-                        </div>
-                        <canvas
-                            id="chart-desktop"
-                            width="900"
-                            height="300"
-                            class="w-full h-80 rounded-xl chart-glow"
-                        ></canvas>
-                    </div>
-
-                    <!-- Trading Controls -->
-                    <div class="card-glass rounded-2xl p-6">
-                        <h3
-                            class="text-xl font-semibold text-white mb-6 text-center"
+                    <div
+                        class="card-glass rounded-lg lg:rounded-xl p-3 lg:p-6 text-center"
+                    >
+                        <div
+                            class="flex items-center justify-center mb-1 lg:mb-2"
                         >
-                            Trading Panel
+                            <span class="text-lg lg:text-2xl mr-1 lg:mr-2"
+                                >📈</span
+                            >
+                            <p
+                                class="text-xs lg:text-sm font-medium text-gray-400"
+                            >
+                                Shares
+                            </p>
+                        </div>
+                        <p
+                            id="shares"
+                            class="text-sm lg:text-2xl font-bold text-white"
+                        >
+                            0
+                        </p>
+                    </div>
+                    <div
+                        class="card-glass rounded-lg lg:rounded-xl p-3 lg:p-6 text-center"
+                    >
+                        <div
+                            class="flex items-center justify-center mb-1 lg:mb-2"
+                        >
+                            <span class="text-lg lg:text-2xl mr-1 lg:mr-2"
+                                >💎</span
+                            >
+                            <p
+                                class="text-xs lg:text-sm font-medium text-gray-400"
+                            >
+                                Price
+                            </p>
+                        </div>
+                        <p
+                            id="price"
+                            class="text-sm lg:text-2xl font-bold price-up"
+                        >
+                            $100.00
+                        </p>
+                    </div>
+                    <div
+                        class="card-glass rounded-lg lg:rounded-xl p-3 lg:p-6 text-center"
+                    >
+                        <div
+                            class="flex items-center justify-center mb-1 lg:mb-2"
+                        >
+                            <span class="text-lg lg:text-2xl mr-1 lg:mr-2"
+                                >📊</span
+                            >
+                            <p
+                                class="text-xs lg:text-sm font-medium text-gray-400"
+                            >
+                                Portfolio
+                            </p>
+                        </div>
+                        <p
+                            id="total"
+                            class="text-sm lg:text-2xl font-bold text-white"
+                        >
+                            $10,000
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Chart -->
+                <div
+                    class="card-glass rounded-xl lg:rounded-2xl p-4 lg:p-6 mb-4 lg:mb-8"
+                >
+                    <div class="flex items-center justify-between mb-3 lg:mb-4">
+                        <h3 class="text-lg lg:text-xl font-semibold text-white">
+                            Live Market Data
                         </h3>
+                        <!-- Desktop Live indicator -->
+                        <div class="hidden lg:flex items-center space-x-2">
+                            <div
+                                class="w-2 h-2 bg-green-400 rounded-full animate-pulse"
+                            ></div>
+                            <span class="text-sm text-gray-400">Live</span>
+                        </div>
+                        <!-- Mobile Timer in top-right -->
+                        <div class="lg:hidden flex items-center space-x-2">
+                            <div
+                                class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse-slow"
+                            ></div>
+                            <span class="text-sm text-gray-400">Live</span>
+                            <span class="text-yellow-400">•</span>
+                            <p
+                                id="timer-mobile"
+                                class="text-lg font-bold text-yellow-400"
+                            >
+                                3:00
+                            </p>
+                        </div>
+                    </div>
+
+                    <canvas
+                        id="chart"
+                        width="900"
+                        height="300"
+                        class="w-full h-48 lg:h-80 rounded-lg lg:rounded-xl chart-glow"
+                    ></canvas>
+                </div>
+
+                <!-- Trading Controls -->
+                <div class="card-glass rounded-xl lg:rounded-2xl p-4 lg:p-6">
+                    <h3
+                        class="text-lg lg:text-xl font-semibold text-white mb-4 lg:mb-6 text-center"
+                    >
+                        Trading Panel
+                    </h3>
+
+                    <!-- Mobile Layout: Stacked buttons -->
+                    <div class="lg:hidden space-y-3">
+                        <!-- Buy Buttons -->
+                        <div class="flex space-x-2">
+                            <button
+                                onclick="buyShares(1)"
+                                class="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 glow-green hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                            >
+                                📈 Buy 1
+                            </button>
+                            <button
+                                onclick="buyShares(5)"
+                                class="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 glow-green hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                            >
+                                📈 Buy 5
+                            </button>
+                            <button
+                                onclick="buyShares('max')"
+                                class="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 glow-green hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                            >
+                                📈 Max
+                            </button>
+                        </div>
+
+                        <!-- Sell Buttons -->
+                        <div class="flex space-x-2">
+                            <button
+                                onclick="sellShares(1)"
+                                class="flex-1 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 glow-red hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                            >
+                                📉 Sell 1
+                            </button>
+                            <button
+                                onclick="sellShares(5)"
+                                class="flex-1 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 glow-red hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                            >
+                                📉 Sell 5
+                            </button>
+                            <button
+                                onclick="sellShares('max')"
+                                class="flex-1 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 glow-red hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                            >
+                                📉 Max
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Desktop Layout: Side by side -->
+                    <div class="hidden lg:block">
                         <div class="grid md:grid-cols-2 gap-6">
                             <!-- Buy Section -->
                             <div class="space-y-4">
@@ -408,137 +521,6 @@
                                     </button>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mobile Layout (visible on mobile) -->
-                <div class="lg:hidden">
-                    <!-- Mobile Header with Timer and Key Stats -->
-                    <div class="card-glass rounded-xl p-4 mb-4">
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="flex items-center space-x-2">
-                                <div
-                                    class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"
-                                ></div>
-                                <p
-                                    id="timer"
-                                    class="text-2xl font-bold text-yellow-400"
-                                >
-                                    3:00
-                                </p>
-                            </div>
-                            <div class="text-right">
-                                <p
-                                    id="price"
-                                    class="text-xl font-bold price-up"
-                                >
-                                    $100.00
-                                </p>
-                                <p class="text-xs text-gray-400">
-                                    Current Price
-                                </p>
-                            </div>
-                        </div>
-                        <div class="w-full bg-gray-700 rounded-full h-1.5">
-                            <div
-                                id="timerBar"
-                                class="bg-gradient-to-r from-yellow-400 to-orange-500 h-1.5 rounded-full transition-all duration-1000"
-                                style="width: 100%"
-                            ></div>
-                        </div>
-                    </div>
-
-                    <!-- Compact Stats Row -->
-                    <div class="grid grid-cols-3 gap-2 mb-4">
-                        <div class="card-glass rounded-lg p-3 text-center">
-                            <p class="text-xs text-gray-400 mb-1">Cash</p>
-                            <p id="cash" class="text-sm font-bold text-white">
-                                $10,000
-                            </p>
-                        </div>
-                        <div class="card-glass rounded-lg p-3 text-center">
-                            <p class="text-xs text-gray-400 mb-1">Shares</p>
-                            <p id="shares" class="text-sm font-bold text-white">
-                                0
-                            </p>
-                        </div>
-                        <div class="card-glass rounded-lg p-3 text-center">
-                            <p class="text-xs text-gray-400 mb-1">Portfolio</p>
-                            <p id="total" class="text-sm font-bold text-white">
-                                $10,000
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Chart - Main Focus -->
-                    <div class="card-glass rounded-xl p-4 mb-4">
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="flex items-center space-x-2">
-                                <div
-                                    class="w-2 h-2 bg-green-400 rounded-full animate-pulse"
-                                ></div>
-                                <span class="text-sm text-gray-400"
-                                    >Live Market</span
-                                >
-                            </div>
-                            <div class="text-xs text-gray-500">
-                                <span id="chartTime">00:00</span>
-                            </div>
-                        </div>
-                        <canvas
-                            id="chart-mobile"
-                            width="900"
-                            height="300"
-                            class="w-full h-64 rounded-lg chart-glow"
-                            style="max-width: 100%; display: block"
-                        ></canvas>
-                    </div>
-
-                    <!-- Compact Trading Controls -->
-                    <div class="space-y-3">
-                        <!-- Buy Buttons -->
-                        <div class="flex space-x-2">
-                            <button
-                                onclick="buyShares(1)"
-                                class="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 glow-green hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                            >
-                                📈 Buy 1
-                            </button>
-                            <button
-                                onclick="buyShares(5)"
-                                class="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 glow-green hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                            >
-                                📈 Buy 5
-                            </button>
-                            <button
-                                onclick="buyShares('max')"
-                                class="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 glow-green hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                            >
-                                📈 Max
-                            </button>
-                        </div>
-
-                        <!-- Sell Buttons -->
-                        <div class="flex space-x-2">
-                            <button
-                                onclick="sellShares(1)"
-                                class="flex-1 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 glow-red hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                            >
-                                📉 Sell 1
-                            </button>
-                            <button
-                                onclick="sellShares(5)"
-                                class="flex-1 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 glow-red hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                            >
-                                📉 Sell 5
-                            </button>
-                            <button
-                                onclick="sellShares('max')"
-                                class="flex-1 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 glow-red hover:scale-105 transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                            >
-                                📉 Max
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -724,13 +706,14 @@
                 const currentPrice = price.toFixed(2);
                 priceElement.innerText = `$${currentPrice}`;
 
-                // Color code based on previous price
+                // Color code based on previous price - use responsive classes
                 if (window.lastPrice) {
                     if (price > window.lastPrice) {
-                        priceElement.className = "text-2xl font-bold price-up";
+                        priceElement.className =
+                            "text-sm lg:text-2xl font-bold price-up";
                     } else if (price < window.lastPrice) {
                         priceElement.className =
-                            "text-2xl font-bold price-down";
+                            "text-sm lg:text-2xl font-bold price-down";
                     }
                 }
                 window.lastPrice = price;
@@ -747,86 +730,118 @@
                 if (!gameActive) return;
 
                 const affordable = Math.floor(cash / price);
-                const buy1Btn = document.querySelector(
+
+                // Get all buy buttons (there are multiple with same onclick)
+                const buy1Btns = document.querySelectorAll(
                     'button[onclick="buyShares(1)"]'
                 );
-                const buy5Btn = document.querySelector(
+                const buy5Btns = document.querySelectorAll(
                     'button[onclick="buyShares(5)"]'
                 );
-                const buyMaxBtn = document.querySelector(
+                const buyMaxBtns = document.querySelectorAll(
                     "button[onclick=\"buyShares('max')\"]"
                 );
-                const sell1Btn = document.querySelector(
+                const sell1Btns = document.querySelectorAll(
                     'button[onclick="sellShares(1)"]'
                 );
-                const sell5Btn = document.querySelector(
+                const sell5Btns = document.querySelectorAll(
                     'button[onclick="sellShares(5)"]'
                 );
-                const sellMaxBtn = document.querySelector(
+                const sellMaxBtns = document.querySelectorAll(
                     "button[onclick=\"sellShares('max')\"]"
                 );
 
-                // Buy buttons - disable if not enough cash
-                if (affordable >= 1) {
-                    buy1Btn.disabled = false;
-                    buy1Btn.className =
-                        "bg-green-600 px-3 py-2 rounded-lg hover:bg-green-500";
-                } else {
-                    buy1Btn.disabled = true;
-                    buy1Btn.className =
-                        "bg-gray-500 px-3 py-2 rounded-lg cursor-not-allowed";
-                }
+                // Update buy buttons - disable if not enough cash
+                buy1Btns.forEach((btn) => {
+                    if (affordable >= 1) {
+                        btn.disabled = false;
+                        btn.classList.remove(
+                            "opacity-50",
+                            "cursor-not-allowed"
+                        );
+                        btn.classList.add("hover:scale-105");
+                    } else {
+                        btn.disabled = true;
+                        btn.classList.add("opacity-50", "cursor-not-allowed");
+                        btn.classList.remove("hover:scale-105");
+                    }
+                });
 
-                if (affordable >= 5) {
-                    buy5Btn.disabled = false;
-                    buy5Btn.className =
-                        "bg-green-600 px-3 py-2 rounded-lg hover:bg-green-500";
-                } else {
-                    buy5Btn.disabled = true;
-                    buy5Btn.className =
-                        "bg-gray-500 px-3 py-2 rounded-lg cursor-not-allowed";
-                }
+                buy5Btns.forEach((btn) => {
+                    if (affordable >= 5) {
+                        btn.disabled = false;
+                        btn.classList.remove(
+                            "opacity-50",
+                            "cursor-not-allowed"
+                        );
+                        btn.classList.add("hover:scale-105");
+                    } else {
+                        btn.disabled = true;
+                        btn.classList.add("opacity-50", "cursor-not-allowed");
+                        btn.classList.remove("hover:scale-105");
+                    }
+                });
 
-                if (affordable >= 1) {
-                    buyMaxBtn.disabled = false;
-                    buyMaxBtn.className =
-                        "bg-green-600 px-3 py-2 rounded-lg hover:bg-green-500";
-                } else {
-                    buyMaxBtn.disabled = true;
-                    buyMaxBtn.className =
-                        "bg-gray-500 px-3 py-2 rounded-lg cursor-not-allowed";
-                }
+                buyMaxBtns.forEach((btn) => {
+                    if (affordable >= 1) {
+                        btn.disabled = false;
+                        btn.classList.remove(
+                            "opacity-50",
+                            "cursor-not-allowed"
+                        );
+                        btn.classList.add("hover:scale-105");
+                    } else {
+                        btn.disabled = true;
+                        btn.classList.add("opacity-50", "cursor-not-allowed");
+                        btn.classList.remove("hover:scale-105");
+                    }
+                });
 
-                // Sell buttons - disable if not enough shares
-                if (shares >= 1) {
-                    sell1Btn.disabled = false;
-                    sell1Btn.className =
-                        "bg-red-600 px-3 py-2 rounded-lg hover:bg-red-500";
-                } else {
-                    sell1Btn.disabled = true;
-                    sell1Btn.className =
-                        "bg-gray-500 px-3 py-2 rounded-lg cursor-not-allowed";
-                }
+                // Update sell buttons - disable if not enough shares
+                sell1Btns.forEach((btn) => {
+                    if (shares >= 1) {
+                        btn.disabled = false;
+                        btn.classList.remove(
+                            "opacity-50",
+                            "cursor-not-allowed"
+                        );
+                        btn.classList.add("hover:scale-105");
+                    } else {
+                        btn.disabled = true;
+                        btn.classList.add("opacity-50", "cursor-not-allowed");
+                        btn.classList.remove("hover:scale-105");
+                    }
+                });
 
-                if (shares >= 5) {
-                    sell5Btn.disabled = false;
-                    sell5Btn.className =
-                        "bg-red-600 px-3 py-2 rounded-lg hover:bg-red-500";
-                } else {
-                    sell5Btn.disabled = true;
-                    sell5Btn.className =
-                        "bg-gray-500 px-3 py-2 rounded-lg cursor-not-allowed";
-                }
+                sell5Btns.forEach((btn) => {
+                    if (shares >= 5) {
+                        btn.disabled = false;
+                        btn.classList.remove(
+                            "opacity-50",
+                            "cursor-not-allowed"
+                        );
+                        btn.classList.add("hover:scale-105");
+                    } else {
+                        btn.disabled = true;
+                        btn.classList.add("opacity-50", "cursor-not-allowed");
+                        btn.classList.remove("hover:scale-105");
+                    }
+                });
 
-                if (shares >= 1) {
-                    sellMaxBtn.disabled = false;
-                    sellMaxBtn.className =
-                        "bg-red-600 px-3 py-2 rounded-lg hover:bg-red-500";
-                } else {
-                    sellMaxBtn.disabled = true;
-                    sellMaxBtn.className =
-                        "bg-gray-500 px-3 py-2 rounded-lg cursor-not-allowed";
-                }
+                sellMaxBtns.forEach((btn) => {
+                    if (shares >= 1) {
+                        btn.disabled = false;
+                        btn.classList.remove(
+                            "opacity-50",
+                            "cursor-not-allowed"
+                        );
+                        btn.classList.add("hover:scale-105");
+                    } else {
+                        btn.disabled = true;
+                        btn.classList.add("opacity-50", "cursor-not-allowed");
+                        btn.classList.remove("hover:scale-105");
+                    }
+                });
             }
 
             function buyShares(amount) {
@@ -932,16 +947,10 @@
             }
 
             function drawChart() {
-                // Find the visible canvas (desktop or mobile)
-                let canvas = document.getElementById("chart-desktop");
-                let isVisible = canvas && canvas.offsetParent !== null;
+                // Use the unified chart canvas
+                const canvas = document.getElementById("chart");
 
-                if (!isVisible) {
-                    canvas = document.getElementById("chart-mobile");
-                    isVisible = canvas && canvas.offsetParent !== null;
-                }
-
-                if (!canvas || !isVisible) {
+                if (!canvas || canvas.offsetParent === null) {
                     return;
                 }
 
@@ -1020,19 +1029,25 @@
                     .toString()
                     .padStart(2, "0")}`;
 
-                document.getElementById("timer").textContent = timeString;
-
-                // Update chart time display
-                const chartTimeElement = document.getElementById("chartTime");
-                if (chartTimeElement) {
-                    chartTimeElement.textContent = timeString;
+                // Update desktop timer
+                const desktopTimer = document.getElementById("timer");
+                if (desktopTimer) {
+                    desktopTimer.textContent = timeString;
                 }
 
-                // Update progress bar
+                // Update mobile timer
+                const mobileTimer = document.getElementById("timer-mobile");
+                if (mobileTimer) {
+                    mobileTimer.textContent = timeString;
+                }
+
+                // Update desktop progress bar only
                 const progress = (timeRemaining / GAME_DURATION_SECONDS) * 100;
-                document.getElementById(
-                    "timerBar"
-                ).style.width = `${progress}%`;
+
+                const desktopTimerBar = document.getElementById("timerBar");
+                if (desktopTimerBar) {
+                    desktopTimerBar.style.width = `${progress}%`;
+                }
 
                 if (timeRemaining <= 0) {
                     endGame();
