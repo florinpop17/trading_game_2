@@ -122,7 +122,7 @@
                         </h1>
                     </div>
                     <p class="text-gray-400 text-lg">
-                        Master the markets in 60 seconds
+                        Master the markets in 2 minutes
                     </p>
                 </div>
                 <div class="grid md:grid-cols-3 gap-6 mb-8">
@@ -136,7 +136,7 @@
                             Objective
                         </h3>
                         <p class="text-gray-300 text-sm">
-                            Maximize your $10,000 portfolio in 60 seconds
+                            Maximize your $10,000 portfolio in 2 minutes
                         </p>
                     </div>
 
@@ -609,21 +609,32 @@
 
         <script>
             // Game configuration
-            const GAME_DURATION_SECONDS = 60; // Change this to set game duration (10 for testing, 60 for 60 seconds)
+            const GAME_DURATION_SECONDS = 120; // Change this to set game duration (10 for testing, 120 for 2 minutes)
 
             // Game state
             let cash = 10000;
             let shares = 0;
             let price = 100;
             let history = [price];
-            let trades = []; // { index: number, price: number, side: 'buy'|'sell' }
+            let candlesticks = []; // Array of {open, high, low, close, time}
+            let trades = []; // { index: number, price: number, side: 'buy'|'sell', candleIndex: number }
             let timeIndex = 0; // global index of the last point in history
             const historyMaxLen = 200;
+            const candleTimeframe = 5; // seconds per candle
 
             // Timer state
             let timeRemaining = GAME_DURATION_SECONDS;
             let gameActive = true;
             let timerInterval = null;
+
+            // Current candle data
+            let currentCandle = {
+                open: price,
+                high: price,
+                low: price,
+                close: price,
+                time: 0,
+            };
 
             // --- Price model state (realistic stochastic process) ---
             // Work in log-price for numerical stability
@@ -842,6 +853,7 @@
                         index: timeIndex,
                         price: price,
                         side: "buy",
+                        candleIndex: candlesticks.length,
                     });
                     updateUI();
                 }
@@ -862,6 +874,7 @@
                         index: timeIndex,
                         price: price,
                         side: "sell",
+                        candleIndex: candlesticks.length,
                     });
                     updateUI();
                 }
@@ -921,6 +934,30 @@
                 variance = Math.pow(newSigmaAnnual, 2);
                 lastLogReturn = dLogP;
 
+                // Update current candle
+                currentCandle.high = Math.max(currentCandle.high, price);
+                currentCandle.low = Math.min(currentCandle.low, price);
+                currentCandle.close = price;
+
+                // Check if we need to create a new candle
+                const currentTime = GAME_DURATION_SECONDS - timeRemaining;
+                if (currentTime >= currentCandle.time + candleTimeframe) {
+                    // Save current candle
+                    candlesticks.push({ ...currentCandle });
+
+                    // Start new candle
+                    currentCandle = {
+                        open: price,
+                        high: price,
+                        low: price,
+                        close: price,
+                        time: currentTime,
+                    };
+
+                    // Keep candlestick history manageable
+                    if (candlesticks.length > 50) candlesticks.shift();
+                }
+
                 // Keep price history manageable
                 history.push(price);
                 timeIndex += 1;
@@ -949,59 +986,154 @@
                 const ctx = canvas.getContext("2d");
                 ctx.clearRect(0, 0, w, h);
 
+                // Combine completed candlesticks with current candle
+                const allCandles = [...candlesticks];
+                if (currentCandle.time > 0 || candlesticks.length === 0) {
+                    allCandles.push({ ...currentCandle });
+                }
+
+                if (allCandles.length === 0) return;
+
                 // Compute dynamic y scale with padding
-                const minP = Math.min(...history);
-                const maxP = Math.max(...history);
+                const allPrices = allCandles.flatMap((c) => [c.high, c.low]);
+                const minP = Math.min(...allPrices);
+                const maxP = Math.max(...allPrices);
                 const range = Math.max(1e-6, maxP - minP);
-                const pad = range * 0.1;
+                const pad = range * 0.05;
                 const yMin = Math.max(0, minP - pad);
                 const yMax = maxP + pad;
                 const innerTop = 10;
                 const innerBottom = 10;
                 const innerHeight = Math.max(1, h - innerTop - innerBottom);
 
-                const n = history.length;
-                if (n === 0) return;
+                const n = allCandles.length;
+                const candleWidth = 12; // Fixed width for all candles
+                const spacingBetweenCandles = 4; // Fixed spacing between candles
 
-                // Price line
-                ctx.beginPath();
-                const x0 = n === 1 ? 0 : 0;
-                const y0 =
-                    h -
-                    innerBottom -
-                    ((history[0] - yMin) / Math.max(1e-6, yMax - yMin)) *
-                        innerHeight;
-                ctx.moveTo(x0, y0);
+                // Draw candlesticks
                 for (let i = 0; i < n; i++) {
-                    const x = n === 1 ? 0 : (i / (n - 1)) * w;
-                    const y =
-                        h -
-                        innerBottom -
-                        ((history[i] - yMin) / Math.max(1e-6, yMax - yMin)) *
-                            innerHeight;
-                    ctx.lineTo(x, y);
-                }
-                ctx.strokeStyle = "lime";
-                ctx.lineWidth = 3; // Make line thicker for mobile visibility
-                ctx.stroke();
+                    const candle = allCandles[i];
+                    const x =
+                        10 +
+                        i * (candleWidth + spacingBetweenCandles) +
+                        candleWidth / 2;
 
-                // Draw trade markers within current window
-                const windowStart = timeIndex - n + 1;
-                trades = trades.filter((t) => t.index >= windowStart - 5);
-                for (const t of trades) {
-                    if (t.index < windowStart) continue;
-                    const rel = t.index - windowStart;
-                    const x = n === 1 ? 0 : (rel / (n - 1)) * w;
+                    // Convert prices to y coordinates
+                    const highY =
+                        h -
+                        innerBottom -
+                        ((candle.high - yMin) / (yMax - yMin)) * innerHeight;
+                    const lowY =
+                        h -
+                        innerBottom -
+                        ((candle.low - yMin) / (yMax - yMin)) * innerHeight;
+                    const openY =
+                        h -
+                        innerBottom -
+                        ((candle.open - yMin) / (yMax - yMin)) * innerHeight;
+                    const closeY =
+                        h -
+                        innerBottom -
+                        ((candle.close - yMin) / (yMax - yMin)) * innerHeight;
+
+                    // Determine if candle is bullish (green) or bearish (red)
+                    const isBullish = candle.close >= candle.open;
+                    const bodyTop = Math.min(openY, closeY);
+                    const bodyBottom = Math.max(openY, closeY);
+                    const bodyHeight = Math.max(1, bodyBottom - bodyTop);
+
+                    // Draw wick (high-low line)
+                    ctx.beginPath();
+                    ctx.moveTo(x, highY);
+                    ctx.lineTo(x, lowY);
+                    ctx.strokeStyle = isBullish ? "#22c55e" : "#ef4444";
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+
+                    // Draw candle body
+                    if (bodyHeight > 0.5) {
+                        ctx.fillStyle = isBullish ? "#22c55e" : "#ef4444";
+                        ctx.fillRect(
+                            x - candleWidth / 2,
+                            bodyTop,
+                            candleWidth,
+                            bodyHeight
+                        );
+
+                        // Draw body border
+                        ctx.strokeStyle = isBullish ? "#16a34a" : "#dc2626";
+                        ctx.lineWidth = 1;
+                        ctx.strokeRect(
+                            x - candleWidth / 2,
+                            bodyTop,
+                            candleWidth,
+                            bodyHeight
+                        );
+                    } else {
+                        // Doji - draw a line for the open/close
+                        ctx.beginPath();
+                        ctx.moveTo(x - candleWidth / 2, openY);
+                        ctx.lineTo(x + candleWidth / 2, openY);
+                        ctx.strokeStyle = isBullish ? "#22c55e" : "#ef4444";
+                        ctx.lineWidth = 2;
+                        ctx.stroke();
+                    }
+                }
+
+                // Draw trade markers (horizontal ticks on the corresponding candle at trade price)
+                const markerHalfWidth = Math.max(
+                    3,
+                    Math.floor((candleWidth + 4) / 2)
+                );
+                trades.forEach((t) => {
+                    const i = t.candleIndex;
+                    if (i < 0 || i >= n) return;
+
+                    const candle = allCandles[i];
+                    // Clamp marker within chart price bounds
+                    const yVal = Math.max(yMin, Math.min(yMax, t.price));
                     const y =
                         h -
                         innerBottom -
-                        ((t.price - yMin) / Math.max(1e-6, yMax - yMin)) *
-                            innerHeight;
+                        ((yVal - yMin) / (yMax - yMin)) * innerHeight;
+
+                    const x =
+                        10 +
+                        i * (candleWidth + spacingBetweenCandles) +
+                        candleWidth / 2;
+
+                    // Choose color by side
+                    const color = t.side === "buy" ? "#22c55e" : "#ef4444";
+
+                    // Slight glow stroke for visibility
                     ctx.beginPath();
-                    ctx.arc(x, y, 6, 0, Math.PI * 2);
-                    ctx.fillStyle = t.side === "buy" ? "#22c55e" : "#ef4444"; // green/red
-                    ctx.fill();
-                }
+                    ctx.strokeStyle = "rgba(255,255,255,0.15)";
+                    ctx.lineWidth = 3;
+                    ctx.moveTo(x - markerHalfWidth, y);
+                    ctx.lineTo(x + markerHalfWidth, y);
+                    ctx.stroke();
+
+                    // Main colored line
+                    ctx.beginPath();
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 2;
+                    ctx.moveTo(x - markerHalfWidth, y);
+                    ctx.lineTo(x + markerHalfWidth, y);
+                    ctx.stroke();
+
+                    // Small side nub to indicate direction (up for buy, down for sell)
+                    ctx.beginPath();
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 2;
+                    if (t.side === "buy") {
+                        ctx.moveTo(x + markerHalfWidth, y);
+                        ctx.lineTo(x + markerHalfWidth, y - 6);
+                    } else {
+                        ctx.moveTo(x + markerHalfWidth, y);
+                        ctx.lineTo(x + markerHalfWidth, y + 6);
+                    }
+                    ctx.stroke();
+                });
             }
 
             function updateTimer() {
@@ -1082,6 +1214,16 @@
                 gameActive = true;
                 timeRemaining = GAME_DURATION_SECONDS;
 
+                // Reset candlestick data
+                candlesticks = [];
+                currentCandle = {
+                    open: price,
+                    high: price,
+                    low: price,
+                    close: price,
+                    time: 0,
+                };
+
                 // Start the game
                 updateUI();
                 updateTimer();
@@ -1095,7 +1237,7 @@
                     timeRemaining--;
                     updateTimer();
                 }, 1000);
-                setInterval(tick, 200);
+                setInterval(tick, 500);
             }
 
             function shareOnX() {
@@ -1135,6 +1277,16 @@
                 timeRemaining = GAME_DURATION_SECONDS;
                 gameActive = true;
 
+                // Reset candlestick data
+                candlesticks = [];
+                currentCandle = {
+                    open: price,
+                    high: price,
+                    low: price,
+                    close: price,
+                    time: 0,
+                };
+
                 // Clear intervals
                 clearInterval(timerInterval);
 
@@ -1151,7 +1303,7 @@
                     timeRemaining--;
                     updateTimer();
                 }, 1000);
-                setInterval(tick, 200);
+                setInterval(tick, 500);
             }
 
             // Generate OG Image for social sharing
