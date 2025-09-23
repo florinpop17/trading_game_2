@@ -92,6 +92,27 @@
             .chart-glow {
                 filter: drop-shadow(0 0 10px rgba(0, 212, 170, 0.4));
             }
+            /* Dark scrollbar styling for leaderboard table */
+            .table-scroll {
+                scrollbar-width: thin; /* Firefox */
+                scrollbar-color: rgba(75, 85, 99, 0.9) rgba(0, 0, 0, 0.4);
+            }
+            .table-scroll::-webkit-scrollbar {
+                width: 8px;
+                height: 8px;
+            }
+            .table-scroll::-webkit-scrollbar-track {
+                background: rgba(0, 0, 0, 0.4);
+                border-radius: 8px;
+            }
+            .table-scroll::-webkit-scrollbar-thumb {
+                background: rgba(31, 41, 55, 0.8);
+                border-radius: 8px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .table-scroll::-webkit-scrollbar-thumb:hover {
+                background: rgba(55, 65, 81, 0.9);
+            }
         </style>
         <script
             defer
@@ -536,10 +557,10 @@
             <!-- Results Modal (hidden initially) -->
             <div
                 id="resultsModal"
-                class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm flex items-center justify-center hidden z-50"
+                class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm flex items-center justify-center hidden z-50 overflow-y-auto"
             >
                 <div
-                    class="card-glass rounded-3xl p-4 max-w-lg w-full mx-4 text-center lg:p-8"
+                    class="card-glass rounded-3xl p-4 max-w-lg w-full mx-4 text-center lg:p-8 my-8 max-h-[90vh] overflow-y-auto"
                 >
                     <div
                         class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 glow-blue lg:w-20 lg:h-20 lg:mb-6"
@@ -659,10 +680,10 @@
             <!-- Leaderboard Modal -->
             <div
                 id="leaderboardModal"
-                class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm flex items-center justify-center hidden z-50"
+                class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm flex items-center justify-center hidden z-50 overflow-y-auto"
             >
                 <div
-                    class="card-glass rounded-3xl p-4 max-w-2xl w-full mx-4 lg:p-8"
+                    class="card-glass rounded-3xl p-4 max-w-2xl w-full mx-4 lg:p-8 my-8 max-h-[90vh] overflow-y-auto"
                 >
                     <div class="flex items-center justify-between mb-4 lg:mb-6">
                         <div class="flex items-center space-x-3">
@@ -692,7 +713,9 @@
                     <div
                         class="overflow-hidden rounded-2xl border border-white/10"
                     >
-                        <div class="overflow-x-auto">
+                        <div
+                            class="overflow-x-auto max-h-80 overflow-y-auto table-scroll"
+                        >
                             <table class="min-w-full divide-y divide-white/10">
                                 <thead class="bg-white/5">
                                     <tr>
