@@ -1794,18 +1794,33 @@
                     console.warn("Select error", error);
                     return false;
                 }
-                leaderboardData = (data || []).map((row) => ({
-                    name: String(row?.name ?? "Anonymous").slice(0, 30),
-                    portfolio: toFiniteNumber(row?.portfolio, 0),
-                    returnPct: clamp(
-                        toFiniteNumber(row?.return_pct, 0),
-                        -1000,
-                        10000
-                    ),
-                    timestamp: row?.created_at
-                        ? Date.parse(row.created_at)
-                        : Date.now(),
-                }));
+                const rows = Array.isArray(data) ? data : [];
+                const tolerance = 0.5; // allowed difference in percentage points
+                const accepted = [];
+                for (const row of rows) {
+                    const portfolio = toFiniteNumber(row?.portfolio, 0);
+                    if (!Number.isFinite(portfolio) || portfolio <= 0) continue;
+                    const computedReturn = ((portfolio - 10000) / 10000) * 100;
+                    const reportedReturn = toFiniteNumber(row?.return_pct, NaN);
+                    if (Number.isFinite(reportedReturn)) {
+                        if (
+                            Math.abs(reportedReturn - computedReturn) >
+                            tolerance
+                        ) {
+                            // Skip inconsistent rows
+                            continue;
+                        }
+                    }
+                    accepted.push({
+                        name: String(row?.name ?? "Anonymous").slice(0, 30),
+                        portfolio: portfolio,
+                        returnPct: clamp(computedReturn, -1000, 10000),
+                        timestamp: row?.created_at
+                            ? Date.parse(row.created_at)
+                            : Date.now(),
+                    });
+                }
+                leaderboardData = accepted;
                 return true;
             }
 
