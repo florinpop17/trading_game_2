@@ -125,6 +125,23 @@
         class="gradient-bg text-white min-h-screen flex flex-col items-center justify-start md:justify-center"
     >
         <div class="container mx-auto px-4 py-8 max-w-6xl">
+            <!-- Global Winners Stats Card -->
+            <div class="text-center mb-4 max-w-4xl mx-auto">
+                <p class="text-sm text-gray-300">
+                    So far
+                    <span id="winnersCount" class="font-semibold text-white"
+                        >0</span
+                    >
+                    members made
+                    <span
+                        id="winnersProfit"
+                        class="font-semibold text-emerald-400"
+                        >$0.00</span
+                    >
+                    in profit
+                </p>
+            </div>
+
             <!-- Start Screen -->
             <div
                 id="startScreen"
@@ -1759,6 +1776,74 @@
                 return true;
             }
 
+            // ---------------- Global Winners Stats ----------------
+            function animateNumber({
+                element,
+                from = 0,
+                to = 0,
+                durationMs = 1000,
+                formatter = (v) => `${v}`,
+            }) {
+                const start = performance.now();
+                function frame(now) {
+                    const t = Math.min(1, (now - start) / durationMs);
+                    const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
+                    const value = from + (to - from) * eased;
+                    element.textContent = formatter(value);
+                    if (t < 1) requestAnimationFrame(frame);
+                }
+                requestAnimationFrame(frame);
+            }
+
+            async function fetchGlobalWinnersStats() {
+                const countEl = document.getElementById("winnersCount");
+                const profitEl = document.getElementById("winnersProfit");
+                if (!countEl || !profitEl) return;
+
+                let winnersCount = 0;
+                let totalProfit = 0;
+
+                try {
+                    const client = await getSupabaseClient();
+                    if (!client) throw new Error("No Supabase client");
+
+                    // Fetch profitable sessions (portfolio > 10000). We only need portfolio values.
+                    // Range set high to accommodate many rows; PostgREST caps at 1000 by default, but Supabase allows larger ranges up to 10000 per request.
+                    const { data, error, count } = await client
+                        .from(LEADERBOARD_TABLE)
+                        .select("portfolio", { count: "exact" })
+                        .gt("portfolio", 10000)
+                        .range(0, 9999);
+
+                    if (error) throw error;
+
+                    winnersCount =
+                        typeof count === "number" ? count : data?.length || 0;
+                    totalProfit = (data || []).reduce((sum, row) => {
+                        const portfolioVal = Number(row.portfolio || 0);
+                        return sum + Math.max(0, portfolioVal - 10000);
+                    }, 0);
+                } catch (e) {
+                    console.warn("Global winners stats fetch failed", e);
+                    // Leave defaults (0), but don't break UI
+                }
+
+                animateNumber({
+                    element: countEl,
+                    from: 0,
+                    to: winnersCount,
+                    durationMs: 2000,
+                    formatter: (v) => formatInteger(Math.round(v)),
+                });
+                animateNumber({
+                    element: profitEl,
+                    from: 0,
+                    to: totalProfit,
+                    durationMs: 2400,
+                    formatter: (v) => formatMoney(v),
+                });
+            }
+
             function startGame() {
                 // Hide start screen, show game screen
                 document.getElementById("startScreen").classList.add("hidden");
@@ -1919,6 +2004,8 @@
                 );
                 if (ogImageMeta) ogImageMeta.content = ogImage;
                 if (twitterImageMeta) twitterImageMeta.content = ogImage;
+                // Kick off global winners stats fetch + animation
+                fetchGlobalWinnersStats();
             });
 
             // Handle window resize for responsive chart
