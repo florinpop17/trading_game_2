@@ -346,6 +346,14 @@
                                 class="w-2 h-2 bg-green-400 rounded-full animate-pulse"
                             ></div>
                             <span class="text-sm text-gray-400">Live</span>
+                            <button
+                                id="audioToggle"
+                                onclick="toggleAudio()"
+                                class="ml-3 p-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors duration-200"
+                                title="Toggle sounds"
+                            >
+                                🔊
+                            </button>
                         </div>
                         <!-- Mobile Timer in top-right -->
                         <div class="lg:hidden flex items-center space-x-2">
@@ -360,6 +368,14 @@
                             >
                                 3:00
                             </p>
+                            <button
+                                id="audioToggle-mobile"
+                                onclick="toggleAudio()"
+                                class="ml-2 p-1 rounded bg-gray-700 hover:bg-gray-600 transition-colors duration-200 text-lg"
+                                title="Toggle sounds"
+                            >
+                                🔊
+                            </button>
                         </div>
                     </div>
 
@@ -621,6 +637,136 @@
         </footer>
 
         <script>
+            // Audio setup for sound effects
+            let audioContext = null;
+            let isAudioEnabled = true;
+            let volume = 0.3; // Default volume (30%)
+
+            // Initialize audio context on first user interaction
+            function initAudio() {
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext ||
+                        window.webkitAudioContext)();
+                }
+            }
+
+            // Create and play buy sound (ascending tone)
+            function playBuySound() {
+                if (!isAudioEnabled || !audioContext) return;
+
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                // Buy sound: ascending tone (C to G)
+                oscillator.frequency.setValueAtTime(
+                    261.63,
+                    audioContext.currentTime
+                ); // C4
+                oscillator.frequency.exponentialRampToValueAtTime(
+                    392.0,
+                    audioContext.currentTime + 0.15
+                ); // G4
+
+                oscillator.type = "sine";
+                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(
+                    volume * 0.4,
+                    audioContext.currentTime + 0.02
+                );
+                gainNode.gain.exponentialRampToValueAtTime(
+                    0.01,
+                    audioContext.currentTime + 0.15
+                );
+
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.15);
+            }
+
+            // Create and play sell sound (cha-ching coins effect)
+            function playSellSound() {
+                if (!isAudioEnabled || !audioContext) return;
+
+                // Create multiple oscillators for a richer "cha-ching" sound
+                const now = audioContext.currentTime;
+
+                // First "cha" sound - quick ascending
+                const chaOsc = audioContext.createOscillator();
+                const chaGain = audioContext.createGain();
+                chaOsc.connect(chaGain);
+                chaGain.connect(audioContext.destination);
+
+                chaOsc.frequency.setValueAtTime(800, now);
+                chaOsc.frequency.exponentialRampToValueAtTime(1200, now + 0.08);
+                chaOsc.type = "triangle";
+                chaGain.gain.setValueAtTime(0, now);
+                chaGain.gain.linearRampToValueAtTime(volume * 0.3, now + 0.01);
+                chaGain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+
+                chaOsc.start(now);
+                chaOsc.stop(now + 0.08);
+
+                // Second "ching" sound - metallic bell-like
+                const chingOsc1 = audioContext.createOscillator();
+                const chingOsc2 = audioContext.createOscillator();
+                const chingGain = audioContext.createGain();
+
+                chingOsc1.connect(chingGain);
+                chingOsc2.connect(chingGain);
+                chingGain.connect(audioContext.destination);
+
+                // Two frequencies for bell-like resonance
+                chingOsc1.frequency.setValueAtTime(1500, now + 0.06);
+                chingOsc2.frequency.setValueAtTime(2200, now + 0.06);
+
+                chingOsc1.type = "sine";
+                chingOsc2.type = "sine";
+
+                chingGain.gain.setValueAtTime(0, now + 0.06);
+                chingGain.gain.linearRampToValueAtTime(
+                    volume * 0.25,
+                    now + 0.07
+                );
+                chingGain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+
+                chingOsc1.start(now + 0.06);
+                chingOsc1.stop(now + 0.2);
+                chingOsc2.start(now + 0.06);
+                chingOsc2.stop(now + 0.2);
+            }
+
+            // Toggle audio on/off
+            function toggleAudio() {
+                isAudioEnabled = !isAudioEnabled;
+                if (isAudioEnabled && !audioContext) {
+                    initAudio();
+                }
+                updateAudioButton();
+            }
+
+            // Update audio button appearance
+            function updateAudioButton() {
+                const audioButton = document.getElementById("audioToggle");
+                const audioButtonMobile =
+                    document.getElementById("audioToggle-mobile");
+
+                if (audioButton) {
+                    audioButton.innerHTML = isAudioEnabled ? "🔊" : "🔇";
+                    audioButton.title = isAudioEnabled
+                        ? "Mute sounds"
+                        : "Enable sounds";
+                }
+
+                if (audioButtonMobile) {
+                    audioButtonMobile.innerHTML = isAudioEnabled ? "🔊" : "🔇";
+                    audioButtonMobile.title = isAudioEnabled
+                        ? "Mute sounds"
+                        : "Enable sounds";
+                }
+            }
+
             // Game configuration
             const GAME_DURATION_SECONDS = 120; // Change this to set game duration (10 for testing, 120 for 2 minutes)
 
@@ -860,6 +1006,13 @@
                     toBuy = Math.min(affordable, Math.max(0, amount));
                 }
                 if (toBuy > 0) {
+                    // Initialize audio context on first trade if needed
+                    if (!audioContext) {
+                        initAudio();
+                    }
+                    // Play buy sound effect
+                    playBuySound();
+
                     shares += toBuy;
                     cash -= toBuy * price;
                     trades.push({
@@ -881,6 +1034,13 @@
                     toSell = Math.min(shares, Math.max(0, amount));
                 }
                 if (toSell > 0) {
+                    // Initialize audio context on first trade if needed
+                    if (!audioContext) {
+                        initAudio();
+                    }
+                    // Play sell sound effect
+                    playSellSound();
+
                     cash += toSell * price;
                     shares -= toSell;
                     trades.push({
@@ -1226,6 +1386,9 @@
                 // Initialize game state
                 gameActive = true;
                 timeRemaining = GAME_DURATION_SECONDS;
+
+                // Initialize audio button state
+                updateAudioButton();
 
                 // Reset candlestick data
                 candlesticks = [];
