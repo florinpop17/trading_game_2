@@ -714,7 +714,7 @@
                         class="overflow-hidden rounded-2xl border border-white/10"
                     >
                         <div
-                            class="overflow-x-auto max-h-80 overflow-y-auto table-scroll"
+                            class="overflow-x-auto max-h-96 overflow-y-auto table-scroll"
                         >
                             <table class="min-w-full divide-y divide-white/10">
                                 <thead class="bg-white/5">
@@ -915,6 +915,27 @@
                 }
             }
 
+            // ---------------- Formatting helpers ----------------
+            function formatMoney(value) {
+                return `$${Number(value).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                })}`;
+            }
+            function formatSignedMoney(value) {
+                const sign = value >= 0 ? "+" : "-";
+                const abs = Math.abs(Number(value)).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                });
+                return `${sign}$${abs}`;
+            }
+            function formatInteger(value) {
+                return Number(value).toLocaleString("en-US", {
+                    maximumFractionDigits: 0,
+                });
+            }
+
             // Game configuration
             const GAME_DURATION_SECONDS = 120; // Change this to set game duration (10 for testing, 120 for 2 minutes)
 
@@ -996,15 +1017,13 @@
             }
 
             function updateUI() {
-                document.getElementById("cash").innerText = `$${cash.toFixed(
-                    2
-                )}`;
-                document.getElementById("shares").innerText = shares;
+                document.getElementById("cash").innerText = formatMoney(cash);
+                document.getElementById("shares").innerText =
+                    formatInteger(shares);
 
                 // Update price with color coding
                 const priceElement = document.getElementById("price");
-                const currentPrice = price.toFixed(2);
-                priceElement.innerText = `$${currentPrice}`;
+                priceElement.innerText = formatMoney(price);
 
                 // Color code based on previous price - use responsive classes
                 if (window.lastPrice) {
@@ -1018,10 +1037,9 @@
                 }
                 window.lastPrice = price;
 
-                document.getElementById("total").innerText = `$${(
-                    cash +
-                    shares * price
-                ).toFixed(2)}`;
+                document.getElementById("total").innerText = formatMoney(
+                    cash + shares * price
+                );
                 updateButtonStates();
                 drawChart();
             }
@@ -1497,12 +1515,10 @@
                 const profitLoss = finalValue - 10000;
                 const returnPercent = (profitLoss / 10000) * 100;
 
-                document.getElementById(
-                    "finalValue"
-                ).textContent = `$${finalValue.toFixed(2)}`;
-                document.getElementById("profitLoss").textContent = `$${
-                    profitLoss >= 0 ? "+" : ""
-                }${profitLoss.toFixed(2)}`;
+                document.getElementById("finalValue").textContent =
+                    formatMoney(finalValue);
+                document.getElementById("profitLoss").textContent =
+                    formatSignedMoney(profitLoss);
                 document.getElementById("returnPercent").textContent = `${
                     returnPercent >= 0 ? "+" : ""
                 }${returnPercent.toFixed(1)}%`;
@@ -1602,8 +1618,8 @@
                             <tr class="hover:bg-white/5 transition-colors">
                                 <td class="px-4 py-3 text-sm ${rankColor}">${rank}</td>
                                 <td class="px-4 py-3 text-sm">${entry.name}</td>
-                                <td class="px-4 py-3 text-sm text-right font-semibold">$${entry.portfolio.toFixed(
-                                    2
+                                <td class="px-4 py-3 text-sm text-right font-semibold">${formatMoney(
+                                    entry.portfolio
                                 )}</td>
                                 <td class="px-4 py-3 text-sm text-right ${retColor}">${
                             entry.returnPct >= 0 ? "+" : ""
@@ -1786,7 +1802,7 @@
 
                 // Create shareable text
                 let shareText = `Just played TradeGame! 🚀\n\n`;
-                shareText += `Portfolio: $${finalValue.toFixed(2)}\n`;
+                shareText += `Portfolio: ${formatMoney(finalValue)}\n`;
                 shareText += `Return: ${
                     returnPercent >= 0 ? "+" : ""
                 }${returnPercent.toFixed(1)}%\n\n`;
