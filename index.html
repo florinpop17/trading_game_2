@@ -957,6 +957,23 @@
                 });
             }
 
+            // Basic HTML escape to prevent XSS in dynamic table rendering
+            function escapeHtml(unsafe) {
+                return String(unsafe)
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
+            function toFiniteNumber(value, fallback = 0) {
+                const n = Number(value);
+                return Number.isFinite(n) ? n : fallback;
+            }
+            function clamp(value, min, max) {
+                return Math.min(max, Math.max(min, value));
+            }
+
             // Game configuration
             const GAME_DURATION_SECONDS = 120; // Change this to set game duration (10 for testing, 120 for 2 minutes)
 
@@ -1631,20 +1648,32 @@
                                 : rank === 3
                                 ? "text-amber-400"
                                 : "text-gray-400";
+                        const safeName = escapeHtml(
+                            (entry?.name ?? "Anonymous").toString().slice(0, 30)
+                        );
+                        const safePortfolio = toFiniteNumber(
+                            entry?.portfolio,
+                            0
+                        );
+                        const safeReturnPct = clamp(
+                            toFiniteNumber(entry?.returnPct, 0),
+                            -1000,
+                            10000
+                        );
                         const retColor =
-                            entry.returnPct >= 0
+                            safeReturnPct >= 0
                                 ? "text-green-400"
                                 : "text-red-400";
                         return `
                             <tr class="hover:bg-white/5 transition-colors">
                                 <td class="px-4 py-3 text-sm ${rankColor}">${rank}</td>
-                                <td class="px-4 py-3 text-sm">${entry.name}</td>
+                                <td class="px-4 py-3 text-sm">${safeName}</td>
                                 <td class="px-4 py-3 text-sm text-right font-semibold">${formatMoney(
-                                    entry.portfolio
+                                    safePortfolio
                                 )}</td>
                                 <td class="px-4 py-3 text-sm text-right ${retColor}">${
-                            entry.returnPct >= 0 ? "+" : ""
-                        }${entry.returnPct.toFixed(1)}%</td>
+                            safeReturnPct >= 0 ? "+" : ""
+                        }${safeReturnPct.toFixed(1)}%</td>
                                 <td class="px-4 py-3 text-sm text-right text-gray-400">${timeAgo(
                                     entry.timestamp
                                 )}</td>
@@ -1766,10 +1795,14 @@
                     return false;
                 }
                 leaderboardData = (data || []).map((row) => ({
-                    name: row.name || "Anonymous",
-                    portfolio: Number(row.portfolio || 0),
-                    returnPct: Number(row.return_pct || 0),
-                    timestamp: row.created_at
+                    name: String(row?.name ?? "Anonymous").slice(0, 30),
+                    portfolio: toFiniteNumber(row?.portfolio, 0),
+                    returnPct: clamp(
+                        toFiniteNumber(row?.return_pct, 0),
+                        -1000,
+                        10000
+                    ),
+                    timestamp: row?.created_at
                         ? Date.parse(row.created_at)
                         : Date.now(),
                 }));
