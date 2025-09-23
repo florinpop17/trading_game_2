@@ -98,6 +98,7 @@
             data-domain="tradegame-xi.vercel.app"
             src="https://plausible.io/js/script.outbound-links.js"
         ></script>
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     </head>
     <body
         class="gradient-bg text-white min-h-screen flex flex-col items-center justify-start md:justify-center"
@@ -202,6 +203,14 @@
                     >
                         🚀 Start Trading
                     </button>
+                    <div class="mt-4">
+                        <button
+                            onclick="openLeaderboard()"
+                            class="bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:scale-105 transform border border-emerald-500/30"
+                        >
+                            🏆 View Leaderboard
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -617,6 +626,122 @@
                             class="w-full bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 text-white font-bold py-3 px-6 rounded-xl text-base transition-all duration-300 hover:scale-105 transform border border-gray-600 lg:py-4 lg:px-8 lg:text-lg"
                         >
                             🐦 Share on X
+                        </button>
+
+                        <div class="pt-2 lg:pt-3">
+                            <div class="grid grid-cols-1 gap-2">
+                                <input
+                                    id="playerNameInput"
+                                    type="text"
+                                    maxlength="20"
+                                    placeholder="Enter your name (max 20 chars)"
+                                    class="w-full bg-gray-800/70 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                />
+                                <button
+                                    id="submitScoreButton"
+                                    onclick="submitScoreUI()"
+                                    class="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:scale-105 transform"
+                                >
+                                    ✅ Submit to Leaderboard
+                                </button>
+                                <button
+                                    onclick="openLeaderboard()"
+                                    class="w-full bg-gradient-to-r from-emerald-700 to-green-700/80 hover:from-emerald-600 hover:to-green-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300"
+                                >
+                                    🏆 View Leaderboard
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaderboard Modal -->
+            <div
+                id="leaderboardModal"
+                class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm flex items-center justify-center hidden z-50"
+            >
+                <div
+                    class="card-glass rounded-3xl p-4 max-w-2xl w-full mx-4 lg:p-8"
+                >
+                    <div class="flex items-center justify-between mb-4 lg:mb-6">
+                        <div class="flex items-center space-x-3">
+                            <div
+                                class="w-12 h-12 bg-gradient-to-r from-emerald-500 to-green-600 rounded-2xl flex items-center justify-center glow-green"
+                            >
+                                <span class="text-2xl">🏆</span>
+                            </div>
+                            <div>
+                                <h2 class="text-xl lg:text-2xl font-bold">
+                                    Global Leaderboard
+                                </h2>
+                                <p class="text-gray-400 text-xs lg:text-sm">
+                                    Top portfolio values from recent sessions
+                                </p>
+                            </div>
+                        </div>
+                        <button
+                            onclick="closeLeaderboard()"
+                            class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700"
+                            title="Close"
+                        >
+                            ✖
+                        </button>
+                    </div>
+
+                    <div
+                        class="overflow-hidden rounded-2xl border border-white/10"
+                    >
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-white/10">
+                                <thead class="bg-white/5">
+                                    <tr>
+                                        <th
+                                            class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                                        >
+                                            #
+                                        </th>
+                                        <th
+                                            class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                                        >
+                                            Player
+                                        </th>
+                                        <th
+                                            class="px-4 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider"
+                                        >
+                                            Portfolio
+                                        </th>
+                                        <th
+                                            class="px-4 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider"
+                                        >
+                                            Return
+                                        </th>
+                                        <th
+                                            class="px-4 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider"
+                                        >
+                                            When
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody
+                                    id="leaderboardBody"
+                                    class="divide-y divide-white/5"
+                                >
+                                    <!-- Rows injected by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 flex items-center justify-between">
+                        <p class="text-gray-400 text-xs">
+                            Scores reset periodically. No cheating 😉
+                        </p>
+                        <button
+                            onclick="closeLeaderboard()"
+                            class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition-all"
+                        >
+                            Close
                         </button>
                     </div>
                 </div>
@@ -1374,6 +1499,221 @@
                 document
                     .getElementById("resultsModal")
                     .classList.remove("hidden");
+
+                // Reset submit controls visibility for a fresh session end
+                const nameInput = document.getElementById("playerNameInput");
+                const submitBtn = document.getElementById("submitScoreButton");
+                if (nameInput) nameInput.classList.remove("hidden");
+                if (submitBtn) submitBtn.classList.remove("hidden");
+            }
+
+            // ---------------- Leaderboard (UI-first, local placeholder) ----------------
+            let leaderboardData = [
+                {
+                    name: "Alice",
+                    portfolio: 13750.23,
+                    returnPct: 37.5,
+                    timestamp: Date.now() - 1000 * 60 * 20,
+                },
+                {
+                    name: "Bob",
+                    portfolio: 12890.11,
+                    returnPct: 28.9,
+                    timestamp: Date.now() - 1000 * 60 * 60 * 2,
+                },
+                {
+                    name: "Charlie",
+                    portfolio: 11985.5,
+                    returnPct: 19.9,
+                    timestamp: Date.now() - 1000 * 60 * 60 * 5,
+                },
+                {
+                    name: "Diana",
+                    portfolio: 11234.56,
+                    returnPct: 12.3,
+                    timestamp: Date.now() - 1000 * 60 * 60 * 24,
+                },
+                {
+                    name: "Evan",
+                    portfolio: 10980.0,
+                    returnPct: 9.8,
+                    timestamp: Date.now() - 1000 * 60 * 60 * 36,
+                },
+            ];
+
+            function timeAgo(ts) {
+                const seconds = Math.floor((Date.now() - ts) / 1000);
+                if (seconds < 60) return `${seconds}s ago`;
+                const minutes = Math.floor(seconds / 60);
+                if (minutes < 60) return `${minutes}m ago`;
+                const hours = Math.floor(minutes / 60);
+                if (hours < 24) return `${hours}h ago`;
+                const days = Math.floor(hours / 24);
+                return `${days}d ago`;
+            }
+
+            function renderLeaderboard() {
+                const tbody = document.getElementById("leaderboardBody");
+                if (!tbody) return;
+                // Sort by portfolio desc, then name
+                const sorted = [...leaderboardData].sort(
+                    (a, b) => b.portfolio - a.portfolio
+                );
+                tbody.innerHTML = sorted
+                    .slice(0, 25)
+                    .map((entry, idx) => {
+                        const rank = idx + 1;
+                        const rankColor =
+                            rank === 1
+                                ? "text-yellow-300"
+                                : rank === 2
+                                ? "text-gray-300"
+                                : rank === 3
+                                ? "text-amber-400"
+                                : "text-gray-400";
+                        const retColor =
+                            entry.returnPct >= 0
+                                ? "text-green-400"
+                                : "text-red-400";
+                        return `
+                            <tr class="hover:bg-white/5 transition-colors">
+                                <td class="px-4 py-3 text-sm ${rankColor}">${rank}</td>
+                                <td class="px-4 py-3 text-sm">${entry.name}</td>
+                                <td class="px-4 py-3 text-sm text-right font-semibold">$${entry.portfolio.toFixed(
+                                    2
+                                )}</td>
+                                <td class="px-4 py-3 text-sm text-right ${retColor}">${
+                            entry.returnPct >= 0 ? "+" : ""
+                        }${entry.returnPct.toFixed(1)}%</td>
+                                <td class="px-4 py-3 text-sm text-right text-gray-400">${timeAgo(
+                                    entry.timestamp
+                                )}</td>
+                            </tr>
+                        `;
+                    })
+                    .join("");
+            }
+
+            async function openLeaderboard() {
+                try {
+                    await fetchLeaderboardSupabase();
+                } catch (e) {
+                    console.warn(
+                        "Leaderboard fetch failed, using local data",
+                        e
+                    );
+                }
+                renderLeaderboard();
+                document
+                    .getElementById("leaderboardModal")
+                    .classList.remove("hidden");
+            }
+
+            function closeLeaderboard() {
+                document
+                    .getElementById("leaderboardModal")
+                    .classList.add("hidden");
+            }
+
+            async function submitScoreUI() {
+                const input = document.getElementById("playerNameInput");
+                const name = (input?.value || "").trim() || "Anonymous";
+                const finalValue = cash + shares * price;
+                const returnPct = ((finalValue - 10000) / 10000) * 100;
+                // Try Supabase first; fallback to local
+                let submitted = false;
+                try {
+                    submitted = await submitScoreSupabase({
+                        name,
+                        portfolio: Number(finalValue.toFixed(2)),
+                        returnPct: Number(returnPct.toFixed(1)),
+                    });
+                } catch (e) {
+                    console.warn(
+                        "Supabase submit failed, using local fallback",
+                        e
+                    );
+                }
+                if (!submitted) {
+                    leaderboardData.push({
+                        name,
+                        portfolio: Number(finalValue.toFixed(2)),
+                        returnPct: Number(returnPct.toFixed(1)),
+                        timestamp: Date.now(),
+                    });
+                }
+                input.value = "";
+                // Hide input and button to avoid spamming multiple submissions per result
+                input.classList.add("hidden");
+                const submitBtn = document.getElementById("submitScoreButton");
+                if (submitBtn) submitBtn.classList.add("hidden");
+                openLeaderboard();
+            }
+
+            // ---------------- Supabase integration ----------------
+            const SUPABASE_URL =
+                window.SUPABASE_URL ||
+                "https://detboyxzndkphfwdfcac.supabase.co"; // e.g. https://your-project.supabase.co
+            const SUPABASE_ANON_KEY =
+                window.SUPABASE_ANON_KEY ||
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRldGJveXh6bmRrcGhmd2RmY2FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk3OTgxODYsImV4cCI6MjA1NTM3NDE4Nn0.1aE9J99Pk18uqS2xEYkyCJK0c46r8mLRinJVOKkR984"; // public anon key
+            const LEADERBOARD_TABLE =
+                window.LEADERBOARD_TABLE || "leaderboard_scores";
+
+            async function getSupabaseClient() {
+                if (!window.supabase || !SUPABASE_URL || !SUPABASE_ANON_KEY) {
+                    return null;
+                }
+                try {
+                    return window.supabase.createClient(
+                        SUPABASE_URL,
+                        SUPABASE_ANON_KEY
+                    );
+                } catch (e) {
+                    console.warn("Failed to init Supabase client", e);
+                    return null;
+                }
+            }
+
+            async function submitScoreSupabase({ name, portfolio, returnPct }) {
+                const client = await getSupabaseClient();
+                if (!client) return false;
+                const payload = {
+                    name,
+                    portfolio,
+                    return_pct: returnPct,
+                };
+                const { error } = await client
+                    .from(LEADERBOARD_TABLE)
+                    .insert(payload);
+                if (error) {
+                    console.warn("Insert error", error);
+                    return false;
+                }
+                return true;
+            }
+
+            async function fetchLeaderboardSupabase() {
+                const client = await getSupabaseClient();
+                if (!client) return false;
+                const { data, error } = await client
+                    .from(LEADERBOARD_TABLE)
+                    .select("name, portfolio, return_pct, created_at")
+                    .order("portfolio", { ascending: false })
+                    .limit(25);
+                if (error) {
+                    console.warn("Select error", error);
+                    return false;
+                }
+                leaderboardData = (data || []).map((row) => ({
+                    name: row.name || "Anonymous",
+                    portfolio: Number(row.portfolio || 0),
+                    returnPct: Number(row.return_pct || 0),
+                    timestamp: row.created_at
+                        ? Date.parse(row.created_at)
+                        : Date.now(),
+                }));
+                return true;
             }
 
             function startGame() {
